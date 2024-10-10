@@ -18,15 +18,15 @@ public class Member {
     }
 
     public String getName() {
-        return ""; //stub
+        return this.name;
     }
 
     public int getBday() {
-        return 0; //stub
+        return this.bday;
     }
 
     public Task getTask() {
-        return task; //stub
+        return this.task;
     }
 
     /*
@@ -35,6 +35,6 @@ public class Member {
      * EFFECTS: assign a task to this member
      */
     public void addTask(Task task) {
-        // TODO
+        this.task = task;
     }
 }
