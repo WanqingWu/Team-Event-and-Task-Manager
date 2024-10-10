@@ -5,10 +5,10 @@ public class Task {
     private Member member;
     private String status;
 
-    // EFFECTS: constructs a task with status "in progress"
+    // EFFECTS: constructs a task with status "not started"
     //          and no member has been assigned to this task
     public Task() {
-        this.status = "in progress";
+        this.status = "not started";
         this.member = null;
     }
 
