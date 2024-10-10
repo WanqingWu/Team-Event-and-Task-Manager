@@ -12,6 +12,14 @@ public class Task {
         this.member = null;
     }
 
+    public String getStatus() {
+        return ""; // stub
+    }
+
+    public Member getMember() {
+        return null; // stub
+    }
+
     // MODIFIES: this
     // EFFECTS: complete the task
     public void completeTask() {
