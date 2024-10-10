@@ -27,12 +27,14 @@ public class Task {
         this.member = member;
     }
 
+    // REQUIRES: this task hasn't started
     // MODIFIES: this
     // EFFECTS: work on the task; set task status to "in progress"
     public void workOnTask() {
         this.status = "in progress";
     }
 
+    // REQUIRES: this task has been in progress
     // MODIFIES: this
     // EFFECTS: mark the task as done; set task status to "completed"
     public void completeTask() {
