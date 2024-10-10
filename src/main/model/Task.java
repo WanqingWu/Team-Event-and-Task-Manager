@@ -13,29 +13,29 @@ public class Task {
     }
 
     public String getStatus() {
-        return ""; // stub
+        return this.status;
     }
 
     public Member getMember() {
-        return null; // stub
+        return this.member;
     }
 
     // REQUIRES: this task hasn't been assigned
     // MODIFIES: this
     // EFFECTS: assign the task to a member
     public void assignTaskTo(Member member) {
-        // stub
+        this.member = member;
     }
 
     // MODIFIES: this
     // EFFECTS: work on the task; set task status to "in progress"
     public void workOnTask() {
-        // stub
+        this.status = "in progress";
     }
 
     // MODIFIES: this
     // EFFECTS: mark the task as done; set task status to "completed"
     public void completeTask() {
-        // stub
+        this.status = "completed";
     }
 }
