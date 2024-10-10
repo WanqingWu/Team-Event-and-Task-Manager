@@ -34,7 +34,7 @@ public class Member {
      * MODIFIES: this
      * EFFECTS: assign a task to this member
      */
-    public void addTask() {
+    public void addTask(Task task) {
         // TODO
     }
 }
