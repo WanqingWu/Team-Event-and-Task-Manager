@@ -55,6 +55,8 @@ public class TaskTest {
     @Test
     void testCompleteTask() {
         assertEquals("not started", testTask.getStatus());
+        testTask.workOnTask();
+        assertEquals("in progress", testTask.getStatus());
         testTask.completeTask();
         assertEquals("completed", testTask.getStatus());
     }

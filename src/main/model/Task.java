@@ -31,13 +31,17 @@ public class Task {
     // MODIFIES: this
     // EFFECTS: work on the task; set task status to "in progress"
     public void workOnTask() {
-        this.status = "in progress";
+        if (this.status == "not started") {
+            this.status = "in progress";
+        }
     }
 
     // REQUIRES: this task has been in progress
     // MODIFIES: this
     // EFFECTS: mark the task as done; set task status to "completed"
     public void completeTask() {
-        this.status = "completed";
+        if (this.status == "in progress") {
+            this.status = "completed";
+        }
     }
 }
