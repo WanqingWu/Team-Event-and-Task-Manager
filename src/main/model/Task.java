@@ -19,7 +19,7 @@ public class Task {
     }
 
     // MODIFIES: this
-    // EFFECTS: change the task name to newName
+    // EFFECTS: changes the task name to newName
     public void changeNameTo(String newName) {
         this.name = newName;
     }
@@ -34,14 +34,14 @@ public class Task {
 
     // REQUIRES: this task hasn't been assigned
     // MODIFIES: this
-    // EFFECTS: assign the task to a member
+    // EFFECTS: assigns the task to a member
     public void assignTaskTo(Member member) {
         this.member = member;
     }
 
     // REQUIRES: this task hasn't started
     // MODIFIES: this
-    // EFFECTS: work on the task; set task status to "in progress"
+    // EFFECTS: works on the task; set task status to "in progress"
     public void workOnTask() {
         if (this.status == "not started") {
             this.status = "in progress";
@@ -50,7 +50,7 @@ public class Task {
 
     // REQUIRES: this task has been in progress
     // MODIFIES: this
-    // EFFECTS: mark the task as done; set task status to "completed"
+    // EFFECTS: marks the task as done; set task status to "completed"
     public void completeTask() {
         if (this.status == "in progress") {
             this.status = "completed";

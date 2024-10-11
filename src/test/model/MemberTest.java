@@ -1,7 +1,6 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ public class MemberTest {
     @BeforeEach
     void runBefore() {
         testMember = new Member("June", 20030609);
-        task = new Task();
+        task = new Task("edit video");
     }
 
     @Test

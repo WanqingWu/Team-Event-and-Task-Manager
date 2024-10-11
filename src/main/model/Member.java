@@ -9,7 +9,7 @@ public class Member {
     /*
      * EFFECTS: constructs a team member, name of the member is set to name; 
      *          birthday of the member is set to bday; 
-     *          task of the member is set to null.
+     *          task of the member is set to null
      */
     public Member(String name, int bday) {
         this.name = name;
@@ -32,7 +32,7 @@ public class Member {
     /*
      * REQUIRES: this member doesn't have a current task
      * MODIFIES: this
-     * EFFECTS: assign a task to this member
+     * EFFECTS: assigns a task to this member
      */
     public void addTask(Task task) {
         this.task = task;

@@ -1,17 +1,16 @@
 package model;
-// Represents a time slot.
 
 import java.util.List;
 import java.util.ArrayList;
 
+// Represents a time slot.
 public class TimeSlot {
 
-    public String date;
-    public ArrayList<Member> bookedMembers;
-    public int startTime;
-    public int endTime;
-    public ArrayList<TeamEvent> events;
-    public boolean isAvailable;
+    private String date;
+    private ArrayList<Member> bookedMembers;
+    private int startTime;
+    private int endTime;
+    private ArrayList<TeamEvent> events;
 
     // EFFECTS: constructs a timeslot with date set to date, 
     //          start time set to startTime, end time set to endTime,
@@ -22,7 +21,6 @@ public class TimeSlot {
         this.endTime = endTime;
         this.bookedMembers = new ArrayList<>();
         this.events = new ArrayList<>();
-        this.isAvailable = true;
     }
 
     // MODIFIES: this
@@ -38,8 +36,7 @@ public class TimeSlot {
         for (TeamEvent teamEvent: this.events) {
             if (this.startTime >= teamEvent.getStartTime() && this.startTime < teamEvent.getEndTime()) {
                 return false;
-            }
-            else if (this.endTime > teamEvent.getStartTime() && this.endTime <= teamEvent.getEndTime()){
+            } else if (this.endTime > teamEvent.getStartTime() && this.endTime <= teamEvent.getEndTime()) {
                 return false;
             }
         }

@@ -1,17 +1,18 @@
 package model;
+
 import java.util.List;
 import java.util.ArrayList;
 
 // Represents a team event.
 public class TeamEvent {
     
-    public String name;
-    public int startTime;
-    public int endTime;
-    public String date;
-    public ArrayList<Member> memberList;
+    private String name;
+    private int startTime;
+    private int endTime;
+    private String date;
+    private ArrayList<Member> memberList;
 
-    // EFFECTS: construct a teamevent with a event name, startTime and endTime set to 0, 
+    // EFFECTS: constructs a teamevent with a event name, startTime and endTime set to 0, 
     //          date set to "" and an empty member list.
     public TeamEvent(String name) {
         this.name = name;
@@ -23,33 +24,33 @@ public class TeamEvent {
     }
 
     // MODIFIES: this
-    // EFFECTS: change the event name to newName
+    // EFFECTS: changes the event name to newName
     public void changeNameTo(String newName) {
         this.name = newName;
     }
 
     // REQUIRES: 9 <= startTime <= 17
     // MODIFIES: this
-    // EFFECTS: set the end time of the event
+    // EFFECTS: sets the end time of the event
     public void setStartTime(int startTime) {
         this.startTime = startTime;
     }
 
-    // REQUIRES: endTime > startTime &&  <= startTime <= 18
+    // REQUIRES: endTime > startTime && 10 <= endTime <= 18
     // MODIFIES: this
-    // EFFECTS: set the end time of the event
+    // EFFECTS: sets the end time of the event
     public void setEndTime(int endTime) {
         this.endTime = endTime;
     }
 
     // MODIFIES: this
-    // EFFECTS: set the date of the event
+    // EFFECTS: sets the date of the event
     public void setDate(String date) {
         this.date = date;
     }
 
     // MODIFIES: this
-    // EFFECTS: add member to this event
+    // EFFECTS: adds member to this event
     public void addMember(Member member) {
         this.memberList.add(member);
     }
