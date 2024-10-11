@@ -6,10 +6,11 @@ import java.util.ArrayList;
 public class TeamEvent {
     
     public String name;
-    public int time;
+    public int startTime;
+    public int endTime;
     public List<Member> memberList;
 
-    // EFFECTS: construct a teamevent with a event name, time, and an empty member list.
+    // EFFECTS: construct a teamevent with a event name, time set to 0, and an empty member list.
     public TeamEvent(String name) {
         // stub
     }
@@ -20,7 +21,11 @@ public class TeamEvent {
         // stub
     }
 
-    public void setTime(int time) {
+    public void setStartTime(int time) {
+        // stub
+    }
+
+    public void setEndTime(int time) {
         // stub
     }
 
@@ -34,7 +39,11 @@ public class TeamEvent {
         return "";
     } 
     
-    public int getTime() {
+    public int getStartTime() {
+        return 0;
+    }
+
+    public int getEndTime() {
         return 0;
     }
 
