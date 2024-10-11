@@ -69,6 +69,8 @@ public class TaskTest {
         assertEquals("not started", testTask.getStatus());
         testTask.workOnTask();
         assertEquals("in progress", testTask.getStatus());
+        testTask.workOnTask();
+        assertEquals("in progress", testTask.getStatus());
     }
 
     @Test
@@ -76,6 +78,8 @@ public class TaskTest {
         assertEquals("not started", testTask.getStatus());
         testTask.workOnTask();
         assertEquals("in progress", testTask.getStatus());
+        testTask.completeTask();
+        assertEquals("completed", testTask.getStatus());
         testTask.completeTask();
         assertEquals("completed", testTask.getStatus());
     }
