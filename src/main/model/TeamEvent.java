@@ -10,11 +10,13 @@ public class TeamEvent {
     public List<Member> memberList;
 
     // EFFECTS: construct a teamevent with a event name, time, and an empty member list.
-    public TeamEvent() {
+    public TeamEvent(String name) {
         // stub
     }
 
-    public void setName(String name) {
+    // MODIFIES: this
+    // EFFECTS: change the event name to newName
+    public void changeNameTo(String newName) {
         // stub
     }
 
