@@ -65,8 +65,8 @@ public class TeamworkApp {
             doAddTaskToTeamProject();
         } else if (command.equals("d")) {
             doDoTask();
-        } else if (command.equals("vm")) {
-            doViewMembers();
+        } else if (command.equals("ve")) {
+            doViewEvents();
         } else if (command.equals("vt")) {
             doViewTasks();
         } else {
@@ -97,7 +97,7 @@ public class TeamworkApp {
         System.out.println("\ta -> assign task to member");
         System.out.println("\tattp -> add task to team project");
         System.out.println("\td -> do task");
-        System.out.println("\tvm -> view members");
+        System.out.println("\tve -> view events");
         System.out.println("\tvt -> view tasks");
         System.out.println("\tq -> quit");
     }
@@ -188,8 +188,12 @@ public class TeamworkApp {
 
     // MODIFIES: this
     // EFFECTS: views all members
-    private void doViewMembers() {
-        System.out.println(members);
+    private void doViewEvents() {
+        List<String> teamEventNameList = new ArrayList<>();
+        for (TeamEvent teamEvent: teamEvents) {
+            teamEventNameList.add(teamEvent.getName());
+        }
+        System.out.println(teamEvents);
     }
 
     // MODIFIES: this
