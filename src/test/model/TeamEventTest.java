@@ -42,6 +42,7 @@ public class TeamEventTest {
         assertEquals("weekly meeting", testTeamEvent.getName());
         assertEquals(0, testTeamEvent.getStartTime());
         assertEquals(0, testTeamEvent.getEndTime());
+        assertEquals("", testTeamEvent.getDate());
         assertEquals(memberList0, testTeamEvent.getMemberList());
     }
 
@@ -74,6 +75,14 @@ public class TeamEventTest {
     }
 
     @Test
+    void testSetDate() {
+        testTeamEvent.setDate("Oct 28");
+        assertEquals("Oct 28", testTeamEvent.getDate());
+        testTeamEvent.setDate("Sep 27");
+        assertEquals("Sep 27", testTeamEvent.getDate());
+    }
+
+    @Test
     void testAddMember() {
         testTeamEvent.addMember(member1);
         assertEquals(memberList1, testTeamEvent.getMemberList());
@@ -100,6 +109,12 @@ public class TeamEventTest {
     void testGetEndTime() {
         testTeamEvent.setEndTime(10);
         assertEquals(10, testTeamEvent.getEndTime());
+    }
+
+    @Test
+    void testGetDate() {
+        testTeamEvent.setDate("0609");
+        assertEquals("0609", testTeamEvent.getDate());
     }
 
     @Test

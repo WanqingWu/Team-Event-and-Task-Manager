@@ -8,52 +8,69 @@ public class TeamEvent {
     public String name;
     public int startTime;
     public int endTime;
-    public List<Member> memberList;
+    public String date;
+    public ArrayList<Member> memberList;
 
-    // EFFECTS: construct a teamevent with a event name, time set to 0, and an empty member list.
+    // EFFECTS: construct a teamevent with a event name, startTime and endTime set to 0, 
+    //          date set to "" and an empty member list.
     public TeamEvent(String name) {
-        // stub
+        this.name = name;
+        this.startTime = 0;
+        this.endTime = 0;
+        this.date = "";
+        this.memberList = new ArrayList<>();
+        
     }
 
     // MODIFIES: this
     // EFFECTS: change the event name to newName
     public void changeNameTo(String newName) {
-        // stub
+        this.name = newName;
     }
 
     // REQUIRES: 9 <= startTime <= 17
     // MODIFIES: this
     // EFFECTS: set the end time of the event
     public void setStartTime(int startTime) {
-        // stub
+        this.startTime = startTime;
     }
 
     // REQUIRES: endTime > startTime &&  <= startTime <= 18
     // MODIFIES: this
     // EFFECTS: set the end time of the event
     public void setEndTime(int endTime) {
-        // stub
+        this.endTime = endTime;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: set the date of the event
+    public void setDate(String date) {
+        this.date = date;
     }
 
     // MODIFIES: this
     // EFFECTS: add member to this event
-    public void addMember() {
-        // stub
+    public void addMember(Member member) {
+        this.memberList.add(member);
     }
 
     public String getName() {
-        return "";
+        return this.name;
     } 
     
     public int getStartTime() {
-        return 0;
+        return this.startTime;
     }
 
     public int getEndTime() {
-        return 0;
+        return this.endTime;
+    }
+
+    public String getDate() {
+        return this.date;
     }
 
     public List<Member> getMemberList() {
-        return null;
+        return this.memberList;
     }
 }
