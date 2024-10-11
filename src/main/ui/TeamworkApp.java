@@ -141,8 +141,11 @@ public class TeamworkApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: creates a time slot and adds them to time slot list
+    // EFFECTS: creates a time slot, adds them to time slot list,
+    //          and applys this to an event
     private void doCreateTimeSlot() {
+        TeamEvent selectedTeamEvent = selectTeamEvent();
+
         System.out.print("Enter time slot date:");
         String date = input.next();
         System.out.print("Enter time slot start time:");
@@ -150,7 +153,16 @@ public class TeamworkApp {
         System.out.print("Enter time end time:");
         int endTime = input.nextInt();
         TimeSlot timeSlot = new TimeSlot(date, startTime, endTime);
+        for (TeamEvent teamEvent: teamEvents) {
+            timeSlot.addEvent(teamEvent);
+        }
         timeSlots.add(timeSlot);
+
+        if (timeSlot.isAvailable()) {
+            selectedTeamEvent.setStartTime(startTime);
+            selectedTeamEvent.setEndTime(endTime);
+        }
+
     }
 
     // MODIFIES: this
@@ -187,13 +199,13 @@ public class TeamworkApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: views all members
+    // EFFECTS: views all events
     private void doViewEvents() {
         List<String> teamEventNameList = new ArrayList<>();
         for (TeamEvent teamEvent: teamEvents) {
             teamEventNameList.add(teamEvent.getName());
         }
-        System.out.println(teamEvents);
+        System.out.println(teamEventNameList);
     }
 
     // MODIFIES: this
@@ -276,5 +288,23 @@ public class TeamworkApp {
         }
 
         return tasks.get(selection);
+    }
+
+    // EFFECTS: prompts user to select a team event and returns it
+    private TeamEvent selectTeamEvent() {
+        int selection = -1;  // force entry into loop
+        List<String> teamEventNameList = new ArrayList<>();
+
+        while (!(selection >= 0 && selection < teamEvents.size())) {
+            System.out.println("Choose one event from:");
+            for (TeamEvent teamEvent: teamEvents) {
+                teamEventNameList.add(teamEvent.getName());
+            }
+            System.out.println(teamEventNameList);
+            System.out.println("Please enter a valid index.");
+            selection = input.nextInt();
+        }
+
+        return teamEvents.get(selection);
     }
 }

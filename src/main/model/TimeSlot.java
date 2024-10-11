@@ -10,7 +10,7 @@ public class TimeSlot {
     private ArrayList<Member> bookedMembers;
     private int startTime;
     private int endTime;
-    private ArrayList<TeamEvent> events;
+    private List<TeamEvent> events;
 
     // EFFECTS: constructs a timeslot with date set to date, 
     //          start time set to startTime, end time set to endTime,
