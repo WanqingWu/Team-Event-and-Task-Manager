@@ -1,6 +1,5 @@
 package ui;
 
-import java.security.Timestamp;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
@@ -60,17 +59,15 @@ public class TeamworkApp {
             doCreateTeamProject();
         } else if (command.equals("s")) {
             doCreateTimeSlot();
-        } else if(command.equals("a")) {
+        } else if (command.equals("a")) {
             doAssignTaskToMember();
-        } else if(command.equals("attp")) {
+        } else if (command.equals("attp")) {
             doAddTaskToTeamProject();
-        } else if(command.equals("w")) {
-            doWorkOnTask();
-        } else if(command.equals("c")) {
-            doCompleteTask();
-        } else if(command.equals("vm")) {
+        } else if (command.equals("d")) {
+            doDoTask();
+        } else if (command.equals("vm")) {
             doViewMembers();
-        } else if(command.equals("vt")) {
+        } else if (command.equals("vt")) {
             doViewTasks();
         } else {
             System.out.println("Selection not valid...");
@@ -99,8 +96,7 @@ public class TeamworkApp {
         System.out.println("\ts -> create time slot");
         System.out.println("\ta -> assign task to member");
         System.out.println("\tattp -> add task to team project");
-        System.out.println("\tw -> work on task");
-        System.out.println("\tc -> complete task");
+        System.out.println("\td -> do task");
         System.out.println("\tvm -> view members");
         System.out.println("\tvt -> view tasks");
         System.out.println("\tq -> quit");
@@ -165,8 +161,7 @@ public class TeamworkApp {
 
         if (selectedMember.getTask() == null) {
             selectedTask.assignTaskTo(selectedMember);
-        }
-        else {
+        } else {
             System.out.print("This member already has a task to do.");
         }
     }
@@ -181,17 +176,14 @@ public class TeamworkApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: works on a task
-    private void doWorkOnTask() {
+    // EFFECTS: works on or completes a task
+    private void doDoTask() {
         Task selectedTask = selectTask();
-        selectedTask.workOnTask();
-    }
-
-    // MODIFIES: this
-    // EFFECTS: completes a task
-    private void doCompleteTask() {
-        Task selectedTask = selectTask();
-        selectedTask.completeTask();
+        if (selectedTask.getStatus() == "not started") {
+            selectedTask.workOnTask();
+        } else if (selectedTask.getStatus() == "in progress") {
+            selectedTask.completeTask();
+        }
     }
 
     // MODIFIES: this
