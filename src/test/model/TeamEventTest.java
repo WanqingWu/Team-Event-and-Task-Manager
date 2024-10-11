@@ -14,9 +14,10 @@ public class TeamEventTest {
     private Member member1;
     private Member member2;
     private Member member3;
-    private List<Member> memberList1;
-    private List<Member> memberList2;
-    private List<Member> memberList3;
+    private ArrayList<Member> memberList0;
+    private ArrayList<Member> memberList1;
+    private ArrayList<Member> memberList2;
+    private ArrayList<Member> memberList3;
 
     @BeforeEach
     void runBefore() {
@@ -24,15 +25,16 @@ public class TeamEventTest {
         member1 = new Member("June", 20030609);
         member2 = new Member("Stephen", 20010927);
         member3 = new Member("Anna", 20001028);
+        memberList0 = new ArrayList<>();
         memberList1 = new ArrayList<>();
         memberList1.add(member1);
         memberList2 = new ArrayList<>();
-        memberList1.add(member1);
-        memberList1.add(member2);
+        memberList2.add(member1);
+        memberList2.add(member2);
         memberList3 = new ArrayList<>();
-        memberList1.add(member1);
-        memberList1.add(member2);
-        memberList1.add(member3);
+        memberList3.add(member1);
+        memberList3.add(member2);
+        memberList3.add(member3);
     }
 
     @Test
@@ -40,7 +42,7 @@ public class TeamEventTest {
         assertEquals("weekly meeting", testTeamEvent.getName());
         assertEquals(0, testTeamEvent.getStartTime());
         assertEquals(0, testTeamEvent.getEndTime());
-        assertEquals(null, testTeamEvent.getMemberList());
+        assertEquals(memberList0, testTeamEvent.getMemberList());
     }
 
     @Test
