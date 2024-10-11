@@ -21,11 +21,17 @@ public class TeamEvent {
         // stub
     }
 
-    public void setStartTime(int time) {
+    // REQUIRES: 9 <= startTime <= 17
+    // MODIFIES: this
+    // EFFECTS: set the end time of the event
+    public void setStartTime(int startTime) {
         // stub
     }
 
-    public void setEndTime(int time) {
+    // REQUIRES: endTime > startTime &&  <= startTime <= 18
+    // MODIFIES: this
+    // EFFECTS: set the end time of the event
+    public void setEndTime(int endTime) {
         // stub
     }
 
