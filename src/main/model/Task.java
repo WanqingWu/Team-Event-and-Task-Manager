@@ -2,14 +2,26 @@ package model;
 
 // Represents a task in the team project.
 public class Task {
+    private String name;
     private Member member;
     private String status;
 
     // EFFECTS: constructs a task with status "not started"
     //          and no member has been assigned to this task
-    public Task() {
+    public Task(String name) {
+        this.name = name;
         this.status = "not started";
         this.member = null;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: change the task name to newName
+    public void changeNameTo(String newName) {
+        this.name = newName;
     }
 
     public String getStatus() {
