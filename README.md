@@ -19,11 +19,9 @@ When working on group assignments, it's hard to find a good meeting time just by
 
 
 ## User Stories
- - As a user, I want to be able to add a team event to upcoming team events list.
  - As a user, I want to be able to view the list of upcoming team events.
  - As a user, I want to be able to select available time slots for an upcoming team event.
- - As a user, I want to be able to view the best time for most users for an upcoming team event.
  - As a user, I want to be able to create a new member, add it to a list of members, and specify the name, birthday, and task.
  - As a user, I want to be able to select a member and add a new statistic for that member, for example, the task they should do.
- - As a user, I want to be able to select a member and view their task.
+ - As a user, I want to be able to select a team project and view its tasks and progress.
  - As a user, I want to be able to select a member and mark their task as completed.
