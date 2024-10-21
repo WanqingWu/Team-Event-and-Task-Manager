@@ -25,3 +25,6 @@ When working on group assignments, it's hard to find a good meeting time just by
  - As a user, I want to be able to select a member and add a new statistic for that member, for example, the task they should do.
  - As a user, I want to be able to select a team project and view its tasks and progress.
  - As a user, I want to be able to select a member and mark their task as completed.
+
+ - As a user, I want to be able to save my upcoming team events list to file (if I so choose).
+ - As a user, I want to be able to load my upcoming team events list to file (if I so choose).
