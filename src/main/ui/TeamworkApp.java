@@ -10,24 +10,32 @@ import model.Member;
 import model.Task;
 import model.TeamEvent;
 import model.TeamProject;
-import model.TimeSlot;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 // Represents the teamwork application
 public class TeamworkApp {
-    private static final String JSON_STORE = "./data/workroom.json";
+    private static final String JSON_STORE = "./data/teamevent.json";
     private Scanner input;
+    private TeamEvent teamEvent;
     private List<Member> members;
     private List<Task> tasks;
     private List<TeamEvent> teamEvents;
     private List<TeamProject> teamProjects;
-    private List<TimeSlot> timeSlots;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
     // EFFECTS: tuns the teamwork application
-    public TeamworkApp() {
+    public TeamworkApp() throws FileNotFoundException {
+        members = new ArrayList<>();
+        tasks = new ArrayList<>();
+        teamEvents = new ArrayList<>();
+        teamProjects = new ArrayList<>();
+        teamEvent = new TeamEvent("team event");
+        input = new Scanner(System.in);
+        input.useDelimiter("\r?\n|\r");
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runTeamwork();
     }
 
@@ -36,8 +44,6 @@ public class TeamworkApp {
     private void runTeamwork() {
         boolean keepGoing = true;
         String command = null;
-
-        init();
 
         while (keepGoing) {
             displayMenu();
@@ -56,6 +62,7 @@ public class TeamworkApp {
 
     // MODIFIES: this
     // EFFECTS: processes user command
+    @SuppressWarnings("methodlength")
     private void processCommand(String command) {
         if (command.equals("m")) {
             doCreateMember();
@@ -65,14 +72,16 @@ public class TeamworkApp {
             doCreateTeamEvent();
         } else if (command.equals("p")) {
             doCreateTeamProject();
-        } else if (command.equals("s")) {
-            doCreateTimeSlot();
         } else if (command.equals("a")) {
             doAssignTaskToMember();
         } else if (command.equals("attp")) {
             doAddTaskToTeamProject();
+        } else if (command.equals("amtt")) {
+            doAddMemberToTeamEvent();
         } else if (command.equals("d")) {
             doDoTask();
+        } else if (command.equals("vm")) {
+            doViewMembers();
         } else if (command.equals("ve")) {
             doViewEvents();
         } else if (command.equals("vt")) {
@@ -86,17 +95,6 @@ public class TeamworkApp {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: initializes
-    private void init() {
-        members = new ArrayList<>();
-        tasks = new ArrayList<>();
-        teamEvents = new ArrayList<>();
-        teamProjects = new ArrayList<>();
-        timeSlots = new ArrayList<>();
-        input = new Scanner(System.in);
-        input.useDelimiter("\r?\n|\r");
-    }
 
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
@@ -105,10 +103,11 @@ public class TeamworkApp {
         System.out.println("\tt -> create task");
         System.out.println("\te -> create team event");
         System.out.println("\tp -> create term project");
-        System.out.println("\ts -> create time slot");
         System.out.println("\ta -> assign task to member");
         System.out.println("\tattp -> add task to team project");
+        System.out.println("\tamtt -> add member to team event");
         System.out.println("\td -> do task");
+        System.out.println("\tvm -> view members");
         System.out.println("\tve -> view events");
         System.out.println("\tvt -> view tasks");
         System.out.println("\tsave -> save team event to file");
@@ -154,30 +153,6 @@ public class TeamworkApp {
         teamProjects.add(teamProject);
     }
 
-    // MODIFIES: this
-    // EFFECTS: creates a time slot, adds them to time slot list,
-    //          and applys this to an event
-    private void doCreateTimeSlot() {
-        TeamEvent selectedTeamEvent = selectTeamEvent();
-
-        System.out.print("Enter time slot date:");
-        String date = input.next();
-        System.out.print("Enter time slot start time:");
-        int startTime = input.nextInt();
-        System.out.print("Enter time end time:");
-        int endTime = input.nextInt();
-        TimeSlot timeSlot = new TimeSlot(date, startTime, endTime);
-        for (TeamEvent teamEvent: teamEvents) {
-            timeSlot.addEvent(teamEvent);
-        }
-        timeSlots.add(timeSlot);
-
-        if (timeSlot.isAvailable()) {
-            selectedTeamEvent.setStartTime(startTime);
-            selectedTeamEvent.setEndTime(endTime);
-        }
-
-    }
 
     // MODIFIES: this
     // EFFECTS: assigns a selected task to a selected member
@@ -202,6 +177,14 @@ public class TeamworkApp {
     }
 
     // MODIFIES: this
+    // EFFECTS: adds a member to a team event
+    private void doAddMemberToTeamEvent() {
+        Member selectedMember = selectMember();
+
+        teamEvent.addMember(selectedMember);
+    }
+
+    // MODIFIES: this
     // EFFECTS: works on or completes a task
     private void doDoTask() {
         Task selectedTask = selectTask();
@@ -210,6 +193,16 @@ public class TeamworkApp {
         } else if (selectedTask.getStatus() == "in progress") {
             selectedTask.completeTask();
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: views all members under selected team event
+    private void doViewMembers() {
+        List<String> memberNameList = new ArrayList<>();
+        for (Member member: teamEvent.getMemberList()) {
+            memberNameList.add(member.getName());
+        }
+        System.out.println(memberNameList);
     }
 
     // MODIFIES: this
