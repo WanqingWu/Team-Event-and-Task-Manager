@@ -1,0 +1,13 @@
+{
+    "members": [
+        {
+            "name": "June",
+            "birthday": "20030609"
+        },
+        {
+            "name": "Stephen",
+            "birthday": "20010927"
+        }
+    ],
+    "name": "Team Event"
+}
