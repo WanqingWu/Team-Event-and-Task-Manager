@@ -30,7 +30,7 @@ class JsonReaderTest extends JsonTest {
 
     @Test
     void testReaderEmptyTeamEvent() {
-        JsonReader reader = new JsonReader("./data/testReaderEmptyMembers.json");
+        JsonReader reader = new JsonReader("./data/testReaderEmptyTeamEvent.json");
         try {
             TeamEvent te = reader.readTeamEvent();
             assertEquals("Team Event", te.getName());
@@ -42,7 +42,7 @@ class JsonReaderTest extends JsonTest {
 
     @Test
     void testReaderGeneralTeamEvent() {
-        JsonReader reader = new JsonReader("./data/testReaderGeneralMembers.json");
+        JsonReader reader = new JsonReader("./data/testReaderGeneralTeamEvent.json");
         try {
             TeamEvent te = reader.readTeamEvent();
             assertEquals("Team Event", te.getName());
