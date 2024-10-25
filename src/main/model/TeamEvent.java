@@ -10,7 +10,7 @@ import persistence.Writable;
 import java.util.ArrayList;
 
 // Represents a team event.
-public class TeamEvent implements Writable{
+public class TeamEvent implements Writable {
     
     private String name;
     private int startTime;

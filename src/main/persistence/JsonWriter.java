@@ -2,6 +2,7 @@
 // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 
 package persistence;
+
 import model.TeamEvent;
 import org.json.JSONObject;
 

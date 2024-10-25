@@ -4,10 +4,8 @@
 package persistence;
 
 import model.Member;
-import model.Task;
 import model.TeamEvent;
 
-import org.junit.experimental.categories.Category;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

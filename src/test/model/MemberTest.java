@@ -34,7 +34,7 @@ public class MemberTest {
     }
 
     @Test
-    void testGetTask(){
+    void testGetTask() {
         assertEquals(null, testMember.getTask());
         testMember.addTask(task);
         assertEquals(task, testMember.getTask());
