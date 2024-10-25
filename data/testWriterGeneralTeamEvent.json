@@ -1,13 +1,13 @@
 {
     "members": [
         {
-            "name": "June",
-            "birthday": "20030609"
+            "birthday": "20030609",
+            "name": "June"
         },
         {
-            "name": "Stephen",
-            "birthday": "20010927"
+            "birthday": "20010927",
+            "name": "Stephen"
         }
     ],
-    "name": "Team Event"
+    "name": "team event"
 }
