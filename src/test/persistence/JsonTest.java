@@ -4,6 +4,7 @@
 package persistence;
 
 import model.Member;
+import model.Task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
