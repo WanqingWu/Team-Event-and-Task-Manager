@@ -1,7 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents a team member having a name, birthday and task.
-public class Member {
+public class Member implements Writable {
     private String name;
     private int bday;
     private Task task;
@@ -36,5 +40,14 @@ public class Member {
      */
     public void addTask(Task task) {
         this.task = task;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("birthday", bday);
+        json.put("task", task);
+        return json;
     }
 }
