@@ -81,6 +81,11 @@ public class TeamEvent implements Writable{
         return this.memberList;
     }
 
+    // EFFECTS: returns number of members in this team event
+    public int numMembers() {
+        return memberList.size();
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
