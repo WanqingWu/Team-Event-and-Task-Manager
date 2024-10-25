@@ -1,10 +1,16 @@
 package model;
 
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 // Represents a team event.
-public class TeamEvent {
+public class TeamEvent implements Writable{
     
     private String name;
     private int startTime;
@@ -73,5 +79,17 @@ public class TeamEvent {
 
     public List<Member> getMemberList() {
         return this.memberList;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        return json; // stub
+    }
+
+    // EFFECTS: returns members in this team event as a JSON array
+    private JSONArray thingiesToJson() {
+        JSONArray jsonArray = new JSONArray();
+        return jsonArray; // stub
     }
 }
