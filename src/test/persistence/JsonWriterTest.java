@@ -60,7 +60,7 @@ class JsonWriterTest extends JsonTest {
             List<Member> members = te.getMemberList();
             assertEquals(2, members.size());
             checkMember("June", 20030609, members.get(0));
-            checkMember("needle", 20010927, members.get(1));
+            checkMember("Stephen", 20010927, members.get(1));
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");
