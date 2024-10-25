@@ -47,11 +47,9 @@ class JsonReaderTest extends JsonTest {
             TeamEvent te = reader.readTeamEvent();
             assertEquals("Team Event", te.getName());
             List<Member> members = te.getMemberList();
-            Task task1 = new Task("task1");
-            Task task2 = new Task("task1");
             assertEquals(2, members.size());
-            checkMember("June", 20030609, task1, members.get(0));
-            checkMember("Stephen", 20010927, task2, members.get(1));
+            checkMember("June", 20030609, members.get(0));
+            checkMember("Stephen", 20010927, members.get(1));
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
