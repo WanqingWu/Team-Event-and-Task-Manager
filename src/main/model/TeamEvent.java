@@ -84,12 +84,19 @@ public class TeamEvent implements Writable{
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        return json; // stub
+        json.put("name", name);
+        json.put("members", membersToJson());
+        return json;
     }
 
     // EFFECTS: returns members in this team event as a JSON array
-    private JSONArray thingiesToJson() {
+    private JSONArray membersToJson() {
         JSONArray jsonArray = new JSONArray();
-        return jsonArray; // stub
+
+        for (Member m : memberList) {
+            jsonArray.put(m.toJson());
+        }
+
+        return jsonArray;
     }
 }
