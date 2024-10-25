@@ -2,6 +2,8 @@ package ui;
 
 import java.util.Scanner;
 import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import model.Member;
@@ -9,14 +11,20 @@ import model.Task;
 import model.TeamEvent;
 import model.TeamProject;
 import model.TimeSlot;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+// Represents the teamwork application
 public class TeamworkApp {
+    private static final String JSON_STORE = "./data/workroom.json";
     private Scanner input;
     private List<Member> members;
     private List<Task> tasks;
     private List<TeamEvent> teamEvents;
     private List<TeamProject> teamProjects;
     private List<TimeSlot> timeSlots;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: tuns the teamwork application
     public TeamworkApp() {
@@ -69,6 +77,10 @@ public class TeamworkApp {
             doViewEvents();
         } else if (command.equals("vt")) {
             doViewTasks();
+        } else if (command.equals("save")) {
+            saveTeamEvent();
+        } else if (command.equals("load")) {
+            loadTeamEvent();
         } else {
             System.out.println("Selection not valid...");
         }
@@ -99,6 +111,8 @@ public class TeamworkApp {
         System.out.println("\td -> do task");
         System.out.println("\tve -> view events");
         System.out.println("\tvt -> view tasks");
+        System.out.println("\tsave -> save team event to file");
+        System.out.println("\tload -> load team event from file");
         System.out.println("\tq -> quit");
     }
 
@@ -306,5 +320,28 @@ public class TeamworkApp {
         }
 
         return teamEvents.get(selection);
+    }
+
+    // EFFECTS: saves the team event to file
+    private void saveTeamEvent() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(teamEvent);
+            jsonWriter.close();
+            System.out.println("Saved " + teamEvent.getName() + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads workroom from file
+    private void loadTeamEvent() {
+        try {
+            teamEvent = jsonReader.readTeamEvent();
+            System.out.println("Loaded " + teamEvent.getName() + " from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 }
