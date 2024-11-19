@@ -26,7 +26,6 @@ public class TeamEvent implements Writable {
         this.endTime = 0;
         this.date = "";
         this.memberList = new ArrayList<>();
-        
     }
 
     // MODIFIES: this

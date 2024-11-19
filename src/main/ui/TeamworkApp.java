@@ -177,11 +177,12 @@ public class TeamworkApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a member to a team event
+    // EFFECTS: adds a selected member to a selected team event
     private void doAddMemberToTeamEvent() {
         Member selectedMember = selectMember();
+        TeamEvent selectedTeamEvent = selectTeamEvent();
 
-        teamEvent.addMember(selectedMember);
+        selectedTeamEvent.addMember(selectedMember);
     }
 
     // MODIFIES: this
@@ -199,7 +200,9 @@ public class TeamworkApp {
     // EFFECTS: views all members under selected team event
     private void doViewMembers() {
         List<String> memberNameList = new ArrayList<>();
-        for (Member member: teamEvent.getMemberList()) {
+        TeamEvent selectedTeamEvent = selectTeamEvent();
+
+        for (Member member: selectedTeamEvent.getMemberList()) {
             memberNameList.add(member.getName());
         }
         System.out.println(memberNameList);
