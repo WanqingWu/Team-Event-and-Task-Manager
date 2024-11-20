@@ -18,6 +18,9 @@ public class TeamworkApp {
     private static final String JSON_STORE = "./data/teamevent.json";
     private Scanner input;
     private TeamEvent teamEvent;
+    private Member member;
+    private Task task;
+    private TeamProject teamProject;
     private List<Member> members;
     private List<Task> tasks;
     private List<TeamEvent> teamEvents;
@@ -86,10 +89,12 @@ public class TeamworkApp {
             doViewEvents();
         } else if (command.equals("vt")) {
             doViewTasks();
+        } else if (command.equals("vp")) {
+            doViewProjects();
         } else if (command.equals("save")) {
-            saveTeamEvent();
+            save();
         } else if (command.equals("load")) {
-            loadTeamEvent();
+            load();
         } else {
             System.out.println("Selection not valid...");
         }
@@ -108,10 +113,11 @@ public class TeamworkApp {
         System.out.println("\tamtt -> add member to team event");
         System.out.println("\td -> do task");
         System.out.println("\tvm -> view members");
-        System.out.println("\tve -> view events");
         System.out.println("\tvt -> view tasks");
-        System.out.println("\tsave -> save team event to file");
-        System.out.println("\tload -> load team event from file");
+        System.out.println("\tve -> view events");
+        System.out.println("\tvp -> view projects");
+        System.out.println("\tsave -> save to file");
+        System.out.println("\tload -> load from file");
         System.out.println("\tq -> quit");
     }
 
@@ -246,6 +252,16 @@ public class TeamworkApp {
         System.out.println(completedTaskNameList);
     }
 
+    // MODIFIES: this
+    // EFFECTS: views all projects
+    private void doViewProjects() {
+        List<String> teamProjectNameList = new ArrayList<>();
+        for (TeamProject teamProject: teamProjects) {
+            teamProjectNameList.add(teamProject.getName());
+        }
+        System.out.println(teamProjectNameList);
+    }
+
     // EFFECTS: prompts user to select a member and returns it
     private Member selectMember() {
         int selection = -1;  // force entry into loop
@@ -318,13 +334,17 @@ public class TeamworkApp {
         return teamEvents.get(selection);
     }
 
-    // EFFECTS: saves the team event to file
-    private void saveTeamEvent() {
+    // EFFECTS: saves everything to file
+    private void save() {
         try {
             jsonWriter.open();
-            jsonWriter.write(teamEvent);
+            jsonWriter.writeTeamEvent(teamEvent);
+            jsonWriter.writeMember(member);
+            jsonWriter.writeTask(task);
+            jsonWriter.writeTeamProject(teamProject);
             jsonWriter.close();
-            System.out.println("Saved " + teamEvent.getName() + " to " + JSON_STORE);
+            // System.out.println("Saved " + teamEvent.getName() + " to " + JSON_STORE);
+            System.out.println("Saved to " + JSON_STORE);
         } catch (FileNotFoundException e) {
             System.out.println("Unable to write to file: " + JSON_STORE);
         }
@@ -332,10 +352,14 @@ public class TeamworkApp {
 
     // MODIFIES: this
     // EFFECTS: loads workroom from file
-    private void loadTeamEvent() {
+    private void load() {
         try {
             teamEvent = jsonReader.readTeamEvent();
-            System.out.println("Loaded " + teamEvent.getName() + " from " + JSON_STORE);
+            member = jsonReader.readMember();
+            task = jsonReader.readTask();
+            teamProject = jsonReader.readTeamProject();
+            // System.out.println("Loaded " + teamEvent.getName() + " from " + JSON_STORE);
+            System.out.println("Loaded from " + JSON_STORE);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }

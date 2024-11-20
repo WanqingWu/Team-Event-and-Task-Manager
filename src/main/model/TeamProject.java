@@ -1,10 +1,16 @@
 package model;
 
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 // Represents a team project containing several tasks.
-public class TeamProject {
+public class TeamProject implements Writable {
 
     private String name;
     private ArrayList<Task> taskList;
@@ -85,5 +91,24 @@ public class TeamProject {
             }
         }
         return true;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("team project name", name);
+        json.put("tasks", tasksToJson());
+        return json;
+    }
+
+    // EFFECTS: returns tasks in this team project as a JSON array
+    private JSONArray tasksToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Task t : taskList) {
+            jsonArray.put(t.toJson());
+        }
+
+        return jsonArray;
     }
 }

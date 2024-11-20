@@ -1,7 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents a task in the team project.
-public class Task {
+public class Task implements Writable {
     private String name;
     private Member member;
     private String status;
@@ -26,6 +30,10 @@ public class Task {
 
     public String getStatus() {
         return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Member getMember() {
@@ -55,5 +63,14 @@ public class Task {
         if (this.status == "in progress") {
             this.status = "completed";
         }
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("task name", name);
+        json.put("member", member);
+        json.put("status", status);
+        return json;
     }
 }

@@ -31,7 +31,7 @@ class JsonWriterTest extends JsonTest {
             TeamEvent te = new TeamEvent("team event");
             JsonWriter writer = new JsonWriter("./data/testWriterEmptyTeamEvent.json");
             writer.open();
-            writer.write(te);
+            writer.writeTeamEvent(te);
             writer.close();
 
             JsonReader reader = new JsonReader("./data/testWriterEmptyTeamEvent.json");
@@ -51,7 +51,7 @@ class JsonWriterTest extends JsonTest {
             te.addMember(new Member("Stephen", 20010927));
             JsonWriter writer = new JsonWriter("./data/testWriterGeneralTeamEvent.json");
             writer.open();
-            writer.write(te);
+            writer.writeTeamEvent(te);
             writer.close();
 
             JsonReader reader = new JsonReader("./data/testWriterGeneralTeamEvent.json");
