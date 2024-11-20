@@ -38,6 +38,9 @@ public class TeamEvent implements Writable {
     // MODIFIES: this
     // EFFECTS: sets the end time of the event
     public void setStartTime(int startTime) {
+        if (startTime < 9 || startTime > 17) {
+            throw new IllegalArgumentException("startTime must be between 9 and 17.");
+        }
         this.startTime = startTime;
     }
 
@@ -45,6 +48,9 @@ public class TeamEvent implements Writable {
     // MODIFIES: this
     // EFFECTS: sets the end time of the event
     public void setEndTime(int endTime) {
+        if (endTime <= startTime || endTime < 10 || endTime > 18) {
+            throw new IllegalArgumentException("endTime must be greater than startTime and between 10 and 18.");
+        }
         this.endTime = endTime;
     }
 
