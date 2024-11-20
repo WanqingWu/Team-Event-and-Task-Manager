@@ -88,10 +88,10 @@ public class TeamEvent implements Writable {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("team event name", name);
+        json.put("teamEventName", name);
         json.put("date", date);
-        json.put("start time", startTime);
-        json.put("end time", endTime);
+        json.put("startTime", startTime);
+        json.put("endTime", endTime);
         json.put("members", membersToJson());
         return json;
     }

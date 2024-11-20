@@ -47,7 +47,7 @@ public class Member implements Writable {
         JSONObject json = new JSONObject();
         json.put("name", name);
         json.put("birthday", Integer.toString(bday));
-        json.put("task", task);
+        json.put("task", task == null ? JSONObject.NULL : task.toJson());
         return json;
     }
 }

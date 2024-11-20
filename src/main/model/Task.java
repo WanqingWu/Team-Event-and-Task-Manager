@@ -51,7 +51,7 @@ public class Task implements Writable {
     // MODIFIES: this
     // EFFECTS: works on the task; set task status to "in progress"
     public void workOnTask() {
-        if (this.status == "not started") {
+        if (this.status.equals("not started")) {
             this.status = "in progress";
         }
     }
@@ -60,7 +60,7 @@ public class Task implements Writable {
     // MODIFIES: this
     // EFFECTS: marks the task as done; set task status to "completed"
     public void completeTask() {
-        if (this.status == "in progress") {
+        if (this.status.equals("in progress")) {
             this.status = "completed";
         }
     }
@@ -69,7 +69,7 @@ public class Task implements Writable {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("task name", name);
-        json.put("member", member);
+        json.put("member", member == null ? JSONObject.NULL : member.toJson());
         json.put("status", status);
         return json;
     }
