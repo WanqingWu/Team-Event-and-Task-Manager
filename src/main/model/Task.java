@@ -44,7 +44,12 @@ public class Task implements Writable {
     // MODIFIES: this
     // EFFECTS: assigns the task to a member
     public void assignTaskTo(Member member) {
-        this.member = member;
+        if (this.member != member) {
+            this.member = member;
+            if (member != null) {
+                member.addTask(this);
+            }
+        }
     }
 
     // REQUIRES: this task hasn't started
@@ -69,7 +74,9 @@ public class Task implements Writable {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("taskName", name);
-        json.put("member", member == null ? JSONObject.NULL : member.toJson());
+        if (member != null) {
+            json.put("member", member.getName());
+        }
         json.put("status", status);
         return json;
     }

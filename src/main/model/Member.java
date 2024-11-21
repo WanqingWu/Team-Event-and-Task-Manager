@@ -39,7 +39,12 @@ public class Member implements Writable {
      * EFFECTS: assigns a task to this member
      */
     public void addTask(Task task) {
-        this.task = task;
+        if (this.task != task) {
+            this.task = task;
+            if (task != null) {
+                task.assignTaskTo(this);
+            }
+        }
     }
 
     @Override
