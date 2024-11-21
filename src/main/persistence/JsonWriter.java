@@ -8,9 +8,11 @@ import model.TeamProject;
 import model.Task;
 import model.Member;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.List;
 
 // Represents a writer that writes JSON representation of team event to file
 public class JsonWriter {
@@ -64,5 +66,25 @@ public class JsonWriter {
     // EFFECTS: writes string to file
     private void saveToFile(JSONObject json) {
         writer.print(json.toString(TAB));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: writes JSON representation of team events and projects to file
+    public void saveTeamData(List<TeamEvent> teamEvents, List<TeamProject> teamProjects) {
+        JSONObject json = new JSONObject();
+
+        JSONArray eventsArray = new JSONArray();
+        for (TeamEvent te : teamEvents) {
+            eventsArray.put(te.toJson());
+        }
+        json.put("teamEvents", eventsArray);
+
+        JSONArray projectsArray = new JSONArray();
+        for (TeamProject tp : teamProjects) {
+            projectsArray.put(tp.toJson());
+        }
+        json.put("teamProjects", projectsArray);
+
+        saveToFile(json);
     }
 }
