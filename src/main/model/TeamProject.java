@@ -50,7 +50,7 @@ public class TeamProject implements Writable {
         unstartedTaskList = new ArrayList<>();
 
         for (Task task: this.taskList) {
-            if (task.getStatus() == "not started") {
+            if (task.getStatus().equals("not started")) {
                 unstartedTaskList.add(task);
             }
         }
@@ -63,7 +63,7 @@ public class TeamProject implements Writable {
         inProgressTaskList = new ArrayList<>();
 
         for (Task task: this.taskList) {
-            if (task.getStatus() == "in progress") {
+            if (task.getStatus().equals("in progress")) {
                 inProgressTaskList.add(task);
             }
         }
@@ -75,7 +75,7 @@ public class TeamProject implements Writable {
     public List<Task> showCompletedTasks() {
         completedTaskList = new ArrayList<>();
         for (Task task: this.taskList) {
-            if (task.getStatus() == "completed") {
+            if (task.getStatus().equals("completed")) {
                 completedTaskList.add(task);
             }
         }
@@ -86,7 +86,7 @@ public class TeamProject implements Writable {
     // EFFECTS: returns true if all the tasks in this project are completed
     public boolean isProjectCompleted() {
         for (Task task: this.taskList) {
-            if (task.getStatus() != "completed") {
+            if (!task.getStatus().equals("completed")) {
                 return false;
             }
         }
@@ -96,7 +96,7 @@ public class TeamProject implements Writable {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("team project name", name);
+        json.put("teamProjectName", name);
         json.put("tasks", tasksToJson());
         return json;
     }

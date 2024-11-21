@@ -33,29 +33,25 @@ public class JsonWriter {
     // MODIFIES: this
     // EFFECTS: writes JSON representation of team event to file
     public void writeTeamEvent(TeamEvent te) {
-        JSONObject json = te.toJson();
-        saveToFile(json.toString(TAB));
+        saveToFile(te.toJson());
     }
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of team project to file
     public void writeTeamProject(TeamProject tp) {
-        JSONObject json = tp.toJson();
-        saveToFile(json.toString(TAB));
+        saveToFile(tp.toJson());
     }
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of tasks to file
     public void writeTask(Task t) {
-        JSONObject json = t.toJson();
-        saveToFile(json.toString(TAB));
+        saveToFile(t.toJson());
     }
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of member to file
     public void writeMember(Member m) {
-        JSONObject json = m.toJson();
-        saveToFile(json.toString(TAB));
+        saveToFile(m.toJson());
     }
 
     // MODIFIES: this
@@ -66,7 +62,7 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes string to file
-    private void saveToFile(String json) {
-        writer.print(json);
+    private void saveToFile(JSONObject json) {
+        writer.print(json.toString(TAB));
     }
 }
