@@ -5,8 +5,6 @@ package persistence;
 
 import model.TeamEvent;
 import model.TeamProject;
-import model.Task;
-import model.Member;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,44 +31,8 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: writes JSON representation of team event to file
-    public void writeTeamEvent(TeamEvent te) {
-        saveToFile(te.toJson());
-    }
-
-    // MODIFIES: this
-    // EFFECTS: writes JSON representation of team project to file
-    public void writeTeamProject(TeamProject tp) {
-        saveToFile(tp.toJson());
-    }
-
-    // MODIFIES: this
-    // EFFECTS: writes JSON representation of tasks to file
-    public void writeTask(Task t) {
-        saveToFile(t.toJson());
-    }
-
-    // MODIFIES: this
-    // EFFECTS: writes JSON representation of member to file
-    public void writeMember(Member m) {
-        saveToFile(m.toJson());
-    }
-
-    // MODIFIES: this
-    // EFFECTS: closes writer
-    public void close() {
-        writer.close();
-    }
-
-    // MODIFIES: this
-    // EFFECTS: writes string to file
-    private void saveToFile(JSONObject json) {
-        writer.print(json.toString(TAB));
-    }
-
-    // MODIFIES: this
     // EFFECTS: writes JSON representation of team events and projects to file
-    public void saveTeamData(List<TeamEvent> teamEvents, List<TeamProject> teamProjects) {
+    public void writeTeamData(List<TeamEvent> teamEvents, List<TeamProject> teamProjects) {
         JSONObject json = new JSONObject();
 
         JSONArray eventsArray = new JSONArray();
@@ -86,5 +48,17 @@ public class JsonWriter {
         json.put("teamProjects", projectsArray);
 
         saveToFile(json);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: closes writer
+    public void close() {
+        writer.close();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: writes string to file
+    private void saveToFile(JSONObject json) {
+        writer.print(json.toString(TAB));
     }
 }

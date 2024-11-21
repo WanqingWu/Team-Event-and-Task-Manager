@@ -6,12 +6,15 @@ package persistence;
 import model.TeamEvent;
 import model.TeamProject;
 import model.Task;
+import model.TeamData;
 import model.Member;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import org.json.*;
@@ -25,36 +28,31 @@ public class JsonReader {
         this.source = source;
     }
 
-    // EFFECTS: reads team event from file and returns it;
-    // throws IOException if an error occurs reading data from file
-    public TeamEvent readTeamEvent() throws IOException {
+    // MODIFIES: this
+    // EFFECTS: reads JSON data from file and returns team data
+    public TeamData readTeamData() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
-        return parseTeamEvent(jsonObject);
-    }
 
-    // EFFECTS: reads team project from file and returns it;
-    // throws IOException if an error occurs reading data from file
-    public TeamProject readTeamProject() throws IOException {
-        String jsonData = readFile(source);
-        JSONObject jsonObject = new JSONObject(jsonData);
-        return parseTeamProject(jsonObject);
-    }
+        List<TeamEvent> teamEvents = new ArrayList<>();
+        if (jsonObject.has("teamEvents")) {
+            JSONArray eventsArray = jsonObject.getJSONArray("teamEvents");
+            for (Object e : eventsArray) {
+                JSONObject eventJson = (JSONObject) e;
+                teamEvents.add(parseTeamEvent(eventJson));
+            }
+        }
 
-    // EFFECTS: reads task from file and returns it;
-    // throws IOException if an error occurs reading data from file
-    public Task readTask() throws IOException {
-        String jsonData = readFile(source);
-        JSONObject jsonObject = new JSONObject(jsonData);
-        return parseTask(jsonObject);
-    }
+        List<TeamProject> teamProjects = new ArrayList<>();
+        if (jsonObject.has("teamProjects")) {
+            JSONArray projectsArray = jsonObject.getJSONArray("teamProjects");
+            for (Object p : projectsArray) {
+                JSONObject projectJson = (JSONObject) p;
+                teamProjects.add(parseTeamProject(projectJson));
+            }
+        }
 
-    // EFFECTS: reads member from file and returns it;
-    // throws IOException if an error occurs reading data from file
-    public Member readMember() throws IOException {
-        String jsonData = readFile(source);
-        JSONObject jsonObject = new JSONObject(jsonData);
-        return parseMember(jsonObject);
+        return new TeamData(teamEvents, teamProjects);
     }
 
     // EFFECTS: reads source file as string and returns it
@@ -70,7 +68,7 @@ public class JsonReader {
 
     // EFFECTS: parses team event from JSON object and returns it
     private TeamEvent parseTeamEvent(JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
+        String name = jsonObject.getString("teamEventName");
         TeamEvent te = new TeamEvent(name);
         if (jsonObject.has("members")) {
             addMembersToTeamEvent(te, jsonObject.getJSONArray("members"));
@@ -93,8 +91,8 @@ public class JsonReader {
         String name = jsonObject.getString("taskName");
         Task task = new Task(name);
         if (jsonObject.has("member")) {
-            JSONObject memberObject = jsonObject.getJSONObject("member");
-            Member member = parseMember(memberObject);
+            String memberName = jsonObject.getString("member");
+            Member member = new Member(memberName, 0);
             task.assignTaskTo(member);
         }
         if (jsonObject.has("status")) {
@@ -111,8 +109,9 @@ public class JsonReader {
         if (jsonObject.has("tasks")) {
             JSONArray tasksArray = jsonObject.getJSONArray("tasks");
             for (Object t : tasksArray) {
-                Task task = parseTask((JSONObject) t);
-                member.addTask(task);
+                JSONObject taskJson = (JSONObject) t;
+                Task task = parseTask(taskJson);
+                task.assignTaskTo(member);
             }
         }
         return member;
