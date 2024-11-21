@@ -11,15 +11,15 @@ public class TeamData {
 
     // Constructs a team data containing team events and team projects
     public TeamData(List<TeamEvent> teamEvents, List<TeamProject> teamProjects) {
-        // this.teamEvents = teamEvents;
-        // this.teamProjects = teamProjects;
+        this.teamEvents = teamEvents;
+        this.teamProjects = teamProjects;
     }
 
     public List<TeamEvent> getTeamEvents() {
-        // return teamEvents;
+        return teamEvents;
     }
 
     public List<TeamProject> getTeamProjects() {
-        // return teamProjects;
+        return teamProjects;
     }
 }
