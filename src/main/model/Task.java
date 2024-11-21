@@ -68,7 +68,7 @@ public class Task implements Writable {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("task name", name);
+        json.put("taskName", name);
         json.put("member", member == null ? JSONObject.NULL : member.toJson());
         json.put("status", status);
         return json;

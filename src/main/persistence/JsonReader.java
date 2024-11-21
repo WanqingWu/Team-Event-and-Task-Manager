@@ -72,24 +72,35 @@ public class JsonReader {
     private TeamEvent parseTeamEvent(JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         TeamEvent te = new TeamEvent(name);
-        addMembersToTeamEvent(te, jsonObject);
+        if (jsonObject.has("members")) {
+            addMembersToTeamEvent(te, jsonObject.getJSONArray("members"));
+        }
         return te;
     }
 
     // EFFECTS: parses team project from JSON object and returns it
     private TeamProject parseTeamProject(JSONObject jsonObject) {
-        String name = jsonObject.getString("team project name");
+        String name = jsonObject.getString("teamProjectName");
         TeamProject tp = new TeamProject(name);
-        addTasksToTeamProject(tp, jsonObject);
+        if (jsonObject.has("tasks")) {
+            addTasksToTeamProject(tp, jsonObject.getJSONArray("tasks"));
+        }
         return tp;
     }
 
     // EFFECTS: parses task from JSON object and returns it
     private Task parseTask(JSONObject jsonObject) {
-        String name = jsonObject.getString("task name");
-        Task t = new Task(name);
-        addMemberToTask(t, jsonObject);
-        return t;
+        String name = jsonObject.getString("taskName");
+        Task task = new Task(name);
+        if (jsonObject.has("member")) {
+            JSONObject memberObject = jsonObject.getJSONObject("member");
+            Member member = parseMember(memberObject);
+            task.assignTaskTo(member);
+        }
+        if (jsonObject.has("status")) {
+            task.setStatus(jsonObject.getString("status"));
+        }
+        return task;
     }
 
     // EFFECTS: parses member from JSON object and returns it
@@ -97,69 +108,31 @@ public class JsonReader {
         String name = jsonObject.getString("name");
         String bday = jsonObject.getString("birthday");
         Member member = new Member(name, Integer.valueOf(bday));
-        addTaskToMember(member, jsonObject);
+        if (jsonObject.has("tasks")) {
+            JSONArray tasksArray = jsonObject.getJSONArray("tasks");
+            for (Object t : tasksArray) {
+                Task task = parseTask((JSONObject) t);
+                member.addTask(task);
+            }
+        }
         return member;
     }
 
     // MODIFIES: te
     // EFFECTS: parses members from JSON object and adds them to team event
-    private void addMembersToTeamEvent(TeamEvent te, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("members");
-        for (Object json : jsonArray) {
-            JSONObject nextMember = (JSONObject) json;
-            addMemberToTeamEvent(te, nextMember);
+    private void addMembersToTeamEvent(TeamEvent te, JSONArray membersArray) {
+        for (Object m : membersArray) {
+            Member member = parseMember((JSONObject) m);
+            te.addMember(member);
         }
-    }
-
-    // MODIFIES: te
-    // EFFECTS: parses member from JSON object and adds it to team event
-    private void addMemberToTeamEvent(TeamEvent te, JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
-        String bday = jsonObject.getString("birthday");
-        Member member = new Member(name, Integer.valueOf(bday));
-        te.addMember(member);
     }
 
     // MODIFIES: tp
     // EFFECTS: parses tasks from JSON object and adds them to team project
-    private void addTasksToTeamProject(TeamProject tp, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("tasks");
-        for (Object json : jsonArray) {
-            JSONObject nextTask = (JSONObject) json;
-            addTaskToTeamProject(tp, nextTask);
+    private void addTasksToTeamProject(TeamProject tp, JSONArray tasksArray) {
+        for (Object t : tasksArray) {
+            Task task = parseTask((JSONObject) t);
+            tp.addTask(task);
         }
-    }
-
-    // MODIFIES: tp
-    // EFFECTS: parses task from JSON object and adds it to team project
-    private void addTaskToTeamProject(TeamProject tp, JSONObject jsonObject) {
-        String name = jsonObject.getString("task name");
-        String member = jsonObject.getString("member");
-        String status = jsonObject.getString("status");
-        Task task = new Task(name);
-        Member m = new Member(member, 0);
-        task.setStatus(status);
-        task.assignTaskTo(m);
-        tp.addTask(task);
-    }
-
-    // MODIFIES: t
-    // EFFECTS: parses member from JSON object and adds it to task
-    private void addMemberToTask(Task t, JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
-        String bday = jsonObject.getString("birthday");
-        Member member = new Member(name, Integer.valueOf(bday));
-        t.assignTaskTo(member);
-    }
-
-    // MODIFIES: m
-    // EFFECTS: parses task from JSON object and adds it to member
-    private void addTaskToMember(Member m, JSONObject jsonObject) {
-        String name = jsonObject.getString("task name");
-        String status = jsonObject.getString("status");
-        Task task = new Task(name);
-        task.setStatus(status);
-        task.assignTaskTo(m);
-        m.addTask(task);
     }
 }
