@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Represents the team project panel
-public class ProjectPanel extends JPanel implements ActionListener {
+public class ProjectPanel extends ImagePanel implements ActionListener {
     private List<TeamProject> teamProjects;
     private List<Task> tasks;
     private TeamworkAppGUI app;
@@ -24,16 +24,16 @@ public class ProjectPanel extends JPanel implements ActionListener {
     private JList<String> projectTaskList;
     private DefaultListModel<String> projectTaskListModel;
 
-
     private JButton createProjectButton;
     private JButton createTaskButton;
     private JButton addTaskButton;
     private JButton doTaskButton;
+    private JButton highlightTaskButton;
     private JButton backButton;
 
     // EFFECTS: constructs a project panel
     public ProjectPanel(TeamworkAppGUI app, List<TeamProject> teamProjects, List<Member> members, List<Task> tasks) {
-        super(new BorderLayout());
+        super("data/images/background1.jpg");
         this.app = app;
         this.teamProjects = teamProjects;
         this.tasks = tasks;
@@ -59,7 +59,7 @@ public class ProjectPanel extends JPanel implements ActionListener {
         projectList = new JList<>(projectListModel);
         projectList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         projectList.setLayoutOrientation(JList.VERTICAL);
-        projectList.setVisibleRowCount(5);
+        projectList.setVisibleRowCount(10);
         projectList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 refreshProjectTaskList();
@@ -95,16 +95,21 @@ public class ProjectPanel extends JPanel implements ActionListener {
         doTaskButton.setActionCommand("doTask");
         doTaskButton.addActionListener(this);
 
+        highlightTaskButton = new JButton("Highlight Task");
+        highlightTaskButton.setActionCommand("highlightTask");
+        highlightTaskButton.addActionListener(this);
+
         backButton = new JButton("Back");
         backButton.setActionCommand("back");
         backButton.addActionListener(this);
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(5, 1, 5, 5));
+        buttonPanel.setLayout(new GridLayout(6, 1, 5, 5));
         buttonPanel.add(createProjectButton);
         buttonPanel.add(createTaskButton);
         buttonPanel.add(addTaskButton);
         buttonPanel.add(doTaskButton);
+        buttonPanel.add(highlightTaskButton);
         buttonPanel.add(backButton);
 
         JPanel listPanel = new JPanel(new GridLayout(1, 3, 10, 10));
@@ -167,6 +172,8 @@ public class ProjectPanel extends JPanel implements ActionListener {
             addTaskToProject();
         } else if ("doTask".equals(command)) {
             doTask();
+        } else if ("highlightTask".equals(command)) {
+            highlightTask();
         } else if ("back".equals(command)) {
             app.loadMainPanel();
         }
@@ -349,6 +356,21 @@ public class ProjectPanel extends JPanel implements ActionListener {
         }
 
         refreshProjectList();
+    }
 
+    // MODIFIES: this
+    // EFFECTS: highlights the selected task
+    private void highlightTask() {
+        int selectedTaskIndex = projectTaskList.getSelectedIndex();
+        if (selectedTaskIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a task to highlight.");
+            return;
+        }
+
+        Color selectedColor = JColorChooser.showDialog(this, "Choose Highlight Color", Color.YELLOW);
+        if (selectedColor != null) {
+            projectTaskList.setSelectionBackground(selectedColor);
+            JOptionPane.showMessageDialog(this, "Task highlighted!");
+        }
     }
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Represents the team event panel
-public class EventPanel extends JPanel implements ActionListener {
+public class EventPanel extends ImagePanel implements ActionListener {
     private List<TeamEvent> teamEvents;
     private List<Member> members;
     private TeamworkAppGUI app;
@@ -26,7 +26,7 @@ public class EventPanel extends JPanel implements ActionListener {
 
     // EFFECTS: constructs a event panel
     public EventPanel(TeamworkAppGUI app, List<TeamEvent> teamEvents, List<Member> members) {
-        super(new BorderLayout());
+        super("data/images/background2.jpg");
         this.app = app;
         this.teamEvents = teamEvents;
         this.members = members;
@@ -39,7 +39,7 @@ public class EventPanel extends JPanel implements ActionListener {
         eventList = new JList<>(eventListModel);
         eventList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         eventList.setLayoutOrientation(JList.VERTICAL);
-        eventList.setVisibleRowCount(5);
+        eventList.setVisibleRowCount(10);
         JScrollPane listScroller = new JScrollPane(eventList);
 
         createEventButton = new JButton("Create Event");

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Represents the member panel
-public class MemberPanel extends JPanel implements ActionListener {
+public class MemberPanel extends ImagePanel implements ActionListener {
     private List<Member> members;
     private List<Task> tasks;
     private List<TeamProject> teamProjects;
@@ -28,7 +28,7 @@ public class MemberPanel extends JPanel implements ActionListener {
 
     // EFFECTS: constructs a member panel
     public MemberPanel(TeamworkAppGUI app, List<Member> members, List<Task> tasks, List<TeamProject> teamProjects) {
-        super(new BorderLayout());
+        super("data/images/background3.jpg");
         this.app = app;
         this.members = members;
         this.tasks = tasks;
@@ -42,7 +42,7 @@ public class MemberPanel extends JPanel implements ActionListener {
         memberList = new JList<>(memberListModel);
         memberList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         memberList.setLayoutOrientation(JList.VERTICAL);
-        memberList.setVisibleRowCount(5);
+        memberList.setVisibleRowCount(10);
         JScrollPane listScroller = new JScrollPane(memberList);
 
         createMemberButton = new JButton("Create Member");

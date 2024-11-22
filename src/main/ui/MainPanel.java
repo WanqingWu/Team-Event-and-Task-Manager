@@ -5,11 +5,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainPanel extends JPanel implements ActionListener {
+public class MainPanel extends ImagePanel implements ActionListener {
     private TeamworkAppGUI app;
 
     // EFFECTS: constructs a main panel
     public MainPanel(TeamworkAppGUI app) {
+        super("data/images/background4.jpg");
         this.app = app;
         setLayout(new GridLayout(3, 2, 10, 10));
 
