@@ -32,6 +32,7 @@ public class TeamworkAppGUI {
         teamEvents = new ArrayList<>();
         teamProjects = new ArrayList<>();
         members = new ArrayList<>();
+        tasks = new ArrayList<>();
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
 
@@ -61,7 +62,7 @@ public class TeamworkAppGUI {
     // EFFECTS: loads the member panel
     public void loadMemberPanel() {
         frame.getContentPane().removeAll();
-        frame.add(new MemberPanel(this, members, tasks));
+        frame.add(new MemberPanel(this, members, tasks, teamProjects));
         frame.revalidate();
         frame.repaint();
     }

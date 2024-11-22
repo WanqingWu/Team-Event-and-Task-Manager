@@ -22,10 +22,12 @@ import org.json.*;
 // Represents a reader that reads team event from JSON data stored in file
 public class JsonReader {
     private String source;
+    private List<Member> members;
 
     // EFFECTS: constructs reader to read from source file
     public JsonReader(String source) {
         this.source = source;
+        this.members = new ArrayList<>();
     }
 
     // MODIFIES: this
@@ -52,7 +54,6 @@ public class JsonReader {
             }
         }
 
-        List<Member> members = new ArrayList<>();
         if (jsonObject.has("members")) {
             JSONArray membersArray = jsonObject.getJSONArray("members");
             for (Object m : membersArray) {
@@ -101,8 +102,12 @@ public class JsonReader {
         Task task = new Task(name);
         if (jsonObject.has("member")) {
             String memberName = jsonObject.getString("member");
-            Member member = new Member(memberName, 0);
-            task.assignTaskTo(member);
+            for (Member m : members) {
+                if (m.getName().equals(memberName)) {
+                    task.assignTaskTo(m);
+                    break;
+                }
+            }
         }
         if (jsonObject.has("status")) {
             task.setStatus(jsonObject.getString("status"));
@@ -115,14 +120,14 @@ public class JsonReader {
         String name = jsonObject.getString("name");
         String bday = jsonObject.getString("birthday");
         Member member = new Member(name, Integer.valueOf(bday));
-        if (jsonObject.has("tasks")) {
-            JSONArray tasksArray = jsonObject.getJSONArray("tasks");
-            for (Object t : tasksArray) {
-                JSONObject taskJson = (JSONObject) t;
-                Task task = parseTask(taskJson);
-                task.assignTaskTo(member);
-            }
-        }
+        // if (jsonObject.has("tasks")) {
+        //     JSONArray tasksArray = jsonObject.getJSONArray("tasks");
+        //     for (Object t : tasksArray) {
+        //         JSONObject taskJson = (JSONObject) t;
+        //         Task task = parseTask(taskJson);
+        //         task.assignTaskTo(member);
+        //     }
+        // }
         return member;
     }
 
@@ -130,8 +135,13 @@ public class JsonReader {
     // EFFECTS: parses members from JSON object and adds them to team event
     private void addMembersToTeamEvent(TeamEvent te, JSONArray membersArray) {
         for (Object m : membersArray) {
-            Member member = parseMember((JSONObject) m);
-            te.addMember(member);
+            String memberName = ((JSONObject) m).getString("name");
+            for (Member member : members) {
+                if (member.getName().equals(memberName)) {
+                    te.addMember(member);
+                    break;
+                }
+            }
         }
     }
 

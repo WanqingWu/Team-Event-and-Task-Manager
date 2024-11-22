@@ -19,8 +19,11 @@ public class ProjectPanel extends JPanel implements ActionListener {
 
     private JList<String> projectList;
     private DefaultListModel<String> projectListModel;
-    private JList<String> taskList;
-    private DefaultListModel<String> taskListModel;
+    private JList<String> unassignedTaskList;
+    private DefaultListModel<String> unassignedTaskListModel;
+    private JList<String> projectTaskList;
+    private DefaultListModel<String> projectTaskListModel;
+
 
     private JButton createProjectButton;
     private JButton createTaskButton;
@@ -35,24 +38,46 @@ public class ProjectPanel extends JPanel implements ActionListener {
         this.teamProjects = teamProjects;
         this.tasks = tasks;
 
+        System.out.println("Initializing ProjectPanel...");
+
         projectListModel = new DefaultListModel<>();
         for (TeamProject p : teamProjects) {
             projectListModel.addElement(formatProject(p));
         }
 
-        taskListModel = new DefaultListModel<>();
+        unassignedTaskListModel = new DefaultListModel<>();
+        if (tasks == null) {
+            tasks = new ArrayList<>();
+        }
+
+        for (Task t : tasks) {
+            unassignedTaskListModel.addElement(formatTask(t));
+        }
+
+        projectTaskListModel = new DefaultListModel<>();
 
         projectList = new JList<>(projectListModel);
         projectList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         projectList.setLayoutOrientation(JList.VERTICAL);
         projectList.setVisibleRowCount(5);
+        projectList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                refreshProjectTaskList();
+            }
+        });
         JScrollPane projectListScroller = new JScrollPane(projectList);
 
-        taskList = new JList<>(taskListModel);
-        taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        taskList.setLayoutOrientation(JList.VERTICAL);
-        taskList.setVisibleRowCount(5);
-        JScrollPane taskListScroller = new JScrollPane(taskList);
+        unassignedTaskList = new JList<>(unassignedTaskListModel);
+        unassignedTaskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        unassignedTaskList.setLayoutOrientation(JList.VERTICAL);
+        unassignedTaskList.setVisibleRowCount(5);
+        JScrollPane unassignedTaskListScroller = new JScrollPane(unassignedTaskList);
+
+        projectTaskList = new JList<>(projectTaskListModel);
+        projectTaskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        projectTaskList.setLayoutOrientation(JList.VERTICAL);
+        projectTaskList.setVisibleRowCount(5);
+        JScrollPane projectTaskListScroller = new JScrollPane(projectTaskList);
 
         createProjectButton = new JButton("Create Project");
         createProjectButton.setActionCommand("createProject");
@@ -82,12 +107,15 @@ public class ProjectPanel extends JPanel implements ActionListener {
         buttonPanel.add(doTaskButton);
         buttonPanel.add(backButton);
 
-        JPanel listPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        JPanel listPanel = new JPanel(new GridLayout(1, 3, 10, 10));
         listPanel.add(projectListScroller);
-        listPanel.add(taskListScroller);
+        listPanel.add(unassignedTaskListScroller);
+        listPanel.add(projectTaskListScroller);
 
         add(listPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.EAST);
+
+        System.out.println("ProjectPanel initialized successfully.");
     }
 
     // EFFECTS: returns a project with name, task information in string
@@ -129,6 +157,7 @@ public class ProjectPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
+        System.out.println("Action performed: " + command);
 
         if ("createProject".equals(command)) {
             createProject();
@@ -153,11 +182,36 @@ public class ProjectPanel extends JPanel implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: refreshes the task list
-    private void refreshTaskList(TeamProject teamProject) {
-        projectListModel.clear();
-        for (Task t : teamProject.getTasks()) {
-            taskListModel.addElement(formatTask(t));
+    // EFFECTS: refreshes the unassigned task list
+    private void refreshUnassignedTaskList() {
+        unassignedTaskListModel.clear();
+        for (Task t : tasks) {
+            boolean isAssigned = false;
+            for (TeamProject p : teamProjects) {
+                if (p.getTasks().contains(t)) {
+                    isAssigned = true;
+                    break;
+                }
+            }
+            if (!isAssigned) {
+                unassignedTaskListModel.addElement(formatTask(t));
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: refreshes the selected project's task list
+    private void refreshProjectTaskList() {
+        int selectedIndex = projectList.getSelectedIndex();
+        projectTaskListModel.clear();
+
+        if (selectedIndex == -1) {
+            return;
+        }
+
+        TeamProject selectedProject = teamProjects.get(selectedIndex);
+        for (Task t : selectedProject.getTasks()) {
+            projectTaskListModel.addElement(formatTask(t));
         }
     }
 
@@ -212,7 +266,12 @@ public class ProjectPanel extends JPanel implements ActionListener {
 
                 Task task = new Task(name);
 
+                if (tasks == null) {
+                    tasks = new ArrayList<>();
+                }
+
                 tasks.add(task);
+                refreshUnassignedTaskList();
                 JOptionPane.showMessageDialog(this, "Task created!");
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(this, "Invalid name");
@@ -223,34 +282,43 @@ public class ProjectPanel extends JPanel implements ActionListener {
     // MODIFIES: this
     // EFFECTS: adds a task to a selected team project
     private void addTaskToProject() {
-        int selectedIndex = projectList.getSelectedIndex();
-        if (selectedIndex == -1) {
+        int selectedProjectIndex = projectList.getSelectedIndex();
+        int selectedTaskIndex = unassignedTaskList.getSelectedIndex();
+
+        if (selectedProjectIndex == -1) {
             JOptionPane.showMessageDialog(this, "Please select a project.");
             return;
         }
-        TeamProject selectedProject = teamProjects.get(selectedIndex);
-        Task selectedTask = selectTask();
+
+        if (selectedTaskIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a task.");
+            return;
+        }
+
+        TeamProject selectedProject = teamProjects.get(selectedProjectIndex);
+        Task selectedTask = null;
+
+        for (Task t : tasks) {
+            if (formatTask(t).equals(unassignedTaskListModel.get(selectedTaskIndex))) {
+                selectedTask = t;
+                break;
+            }
+        }
 
         if (selectedTask == null) {
-            JOptionPane.showMessageDialog(this, "No task selected.");
+            JOptionPane.showMessageDialog(this, "Error: Could not find selected task.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (selectedProject.getTasks().contains(selectedTask)) {
+        if (!selectedProject.getTasks().contains(selectedTask)) {
+            selectedProject.addTask(selectedTask);
+            refreshUnassignedTaskList();
+            refreshProjectTaskList();
+            refreshProjectList();
+            JOptionPane.showMessageDialog(this, "Added " + selectedTask.getName() + " to " + selectedProject.getName());
+        } else {
             JOptionPane.showMessageDialog(this, "This task is already added to this project.");
-            return;
         }
-
-        selectedProject.addTask(selectedTask);
-
-        if (tasks.contains(selectedTask)) {
-            tasks.remove(selectedTask);
-        }
-
-        refreshProjectList();
-        refreshTaskList(selectedProject);
-        
-        JOptionPane.showMessageDialog(this, "Added " + selectedTask.getName() + " to " + selectedProject.getName());
     }
 
     // MODIFIES: this
@@ -263,7 +331,7 @@ public class ProjectPanel extends JPanel implements ActionListener {
         }
         TeamProject selectedProject = teamProjects.get(selectedProjectIndex);
         
-        int selectedTaskIndex = taskList.getSelectedIndex();
+        int selectedTaskIndex = projectTaskList.getSelectedIndex();
         if (selectedTaskIndex == -1) {
             JOptionPane.showMessageDialog(this, "Please select a task.");
             return;
@@ -280,35 +348,7 @@ public class ProjectPanel extends JPanel implements ActionListener {
             JOptionPane.showMessageDialog(this, "Task " + selectedTask.getName() + " is already completed.");
         }
 
-        refreshTaskList(selectedProject);
+        refreshProjectList();
 
-    }
-
-    // EFFECTS: prompts user to select a task and returns it
-    private Task selectTask() {
-        if (tasks.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No tasks available.", "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
-
-        List<String> taskNameList = new ArrayList<>();
-
-        for (Task t : tasks) {
-            taskNameList.add(t.getName());
-        }
-
-        Object[] taskArray = taskNameList.toArray();
-        String selectedName = (String) JOptionPane.showInputDialog(this, "Choose one task:", "Select Task", JOptionPane.PLAIN_MESSAGE, null, taskArray, taskArray[0]);
-
-        if (selectedName != null) {
-            for (Task t : tasks) {
-                if (t.getName().equals(selectedName)) {
-                    return t;
-                }
-            }
-        }
-
-        JOptionPane.showMessageDialog(this, "No task selected.", "Info", JOptionPane.INFORMATION_MESSAGE);
-        return null;
     }
 }

@@ -2,6 +2,7 @@ package ui;
 
 import model.Member;
 import model.Task;
+import model.TeamProject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,7 @@ import java.util.List;
 public class MemberPanel extends JPanel implements ActionListener {
     private List<Member> members;
     private List<Task> tasks;
+    private List<TeamProject> teamProjects;
     private TeamworkAppGUI app;
 
     private JList<String> memberList;
@@ -25,11 +27,12 @@ public class MemberPanel extends JPanel implements ActionListener {
     private JButton backButton;
 
     // EFFECTS: constructs a member panel
-    public MemberPanel(TeamworkAppGUI app, List<Member> members, List<Task> tasks) {
+    public MemberPanel(TeamworkAppGUI app, List<Member> members, List<Task> tasks, List<TeamProject> teamProjects) {
         super(new BorderLayout());
         this.app = app;
         this.members = members;
         this.tasks = tasks;
+        this.teamProjects = teamProjects;
 
         memberListModel = new DefaultListModel<>();
         for (Member m : members) {
@@ -132,6 +135,13 @@ public class MemberPanel extends JPanel implements ActionListener {
     // MODIFIES: this
     // EFFECTS: assigns a selected task to a selected member
     private void assignTaskToMember() {
+        List<Task> unassignedTasks = getAllUnassignedTasks();
+
+        if (unassignedTasks.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No unassigned tasks available.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         int selectedIndex = memberList.getSelectedIndex();
         if (selectedIndex == -1) {
             JOptionPane.showMessageDialog(this, "Please select a member.");
@@ -139,7 +149,7 @@ public class MemberPanel extends JPanel implements ActionListener {
         }
 
         Member selectedMember = members.get(selectedIndex);
-        Task selectedTask = selectTask();
+        Task selectedTask = selectTask(unassignedTasks);
 
         if (selectedTask != null) {
             if (selectedMember.getTask() == null) {
@@ -150,6 +160,25 @@ public class MemberPanel extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(this, "This member already has a task.");
             }
         }
+    }
+
+    // EFFECTS: returns all unassigned tasks from global tasks
+    private List<Task> getAllUnassignedTasks() {
+        List<Task> unassignedTasks = new ArrayList<>();
+
+        for (Task task : tasks) {
+            if (task.getMember() == null) {
+                unassignedTasks.add(task);
+            }
+        }
+        for (TeamProject project : teamProjects) {
+            for (Task task : project.getTasks()) {
+                if (task.getMember() == null) {
+                    unassignedTasks.add(task);
+                }
+            }
+        }
+        return unassignedTasks;
     }
 
     // MODIFIES: this
@@ -176,14 +205,9 @@ public class MemberPanel extends JPanel implements ActionListener {
     }
 
     // EFFECTS: prompts user to select a task and returns it
-    private Task selectTask() {
-        if (tasks.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No tasks available.", "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
-
+    private Task selectTask(List<Task> unassignedTasks) {
         List<String> taskNames = new ArrayList<>();
-        for (Task task : tasks) {
+        for (Task task : unassignedTasks) {
             taskNames.add(task.getName());
         }
 
@@ -191,7 +215,7 @@ public class MemberPanel extends JPanel implements ActionListener {
         String selectedTaskName = (String) JOptionPane.showInputDialog(this, "Choose a task:", "Select Task", JOptionPane.PLAIN_MESSAGE, null, taskArray, taskArray[0]);
 
         if (selectedTaskName != null) {
-            for (Task t : tasks) {
+            for (Task t : unassignedTasks) {
                 if (t.getName().equals(selectedTaskName)) {
                     return t;
                 }

@@ -52,7 +52,11 @@ public class Member implements Writable {
         JSONObject json = new JSONObject();
         json.put("name", name);
         json.put("birthday", Integer.toString(bday));
-        json.put("task", task == null ? JSONObject.NULL : task.toJson());
+
+        if (this.task != null) {
+            json.put("task", this.task.toJson());
+        }
+        // json.put("task", task == null ? JSONObject.NULL : task.toJson());
         return json;
     }
 }
