@@ -194,14 +194,14 @@ public class TeamworkApp {
     // MODIFIES: this
     // EFFECTS: views all events
     private void viewTeamEvents() {
-       if (teamEvents.isEmpty()) {
-          System.out.println("No events available.");
-          return;
-       }
+        if (teamEvents.isEmpty()) {
+            System.out.println("No events available.");
+            return;
+        }
 
-       System.out.println("\nTeam events:");
+        System.out.println("\nTeam events:");
 
-       for (int i = 0; i < teamEvents.size(); i++) {
+        for (int i = 0; i < teamEvents.size(); i++) {
             TeamEvent teamEvent = teamEvents.get(i);
             System.out.println((i + 1) + ". Event name: " + teamEvent.getName());
             System.out.println("   Date: " + teamEvent.getDate());
@@ -216,7 +216,7 @@ public class TeamworkApp {
                 }
             }
             System.out.println();
-       }
+        }
     }
 
     // MODIFIES: this
@@ -242,6 +242,7 @@ public class TeamworkApp {
 
     // MODIFIES: this
     // EFFECTS: manages team project related actions
+    @SuppressWarnings("methodlength")
     private void manageTeamProjects() {
         System.out.println("\nSelect from:");
         System.out.println("\tcp -> create a new team project");
@@ -294,10 +295,11 @@ public class TeamworkApp {
 
     // MODIFIES: this
     // EFFECTS: views all projects
+    @SuppressWarnings("methodlength")
     private void viewTeamProjects() {
         if (teamProjects.isEmpty()) {
-           System.out.println("No projects available.");
-           return;
+            System.out.println("No projects available.");
+            return;
         }
  
         System.out.println("\nTeam projects:");
@@ -325,7 +327,7 @@ public class TeamworkApp {
             }
             System.out.println();
         }
-     }
+    }
 
     // MODIFIES: this
     // EFFECTS: adds a task to a team project

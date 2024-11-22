@@ -1,7 +1,5 @@
 package model;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 // Represents team data containing team events and team projects.
