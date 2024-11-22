@@ -14,6 +14,7 @@ import java.util.List;
 public class MemberPanel extends JPanel implements ActionListener {
     private List<Member> members;
     private List<Task> tasks;
+    private TeamworkAppGUI app;
 
     private JList<String> memberList;
     private DefaultListModel<String> memberListModel;
@@ -24,8 +25,9 @@ public class MemberPanel extends JPanel implements ActionListener {
     private JButton backButton;
 
     // EFFECTS: constructs a member panel
-    public MemberPanel(List<Member> members, List<Task> tasks) {
+    public MemberPanel(TeamworkAppGUI app, List<Member> members, List<Task> tasks) {
         super(new BorderLayout());
+        this.app = app;
         this.members = members;
         this.tasks = tasks;
 
@@ -89,7 +91,7 @@ public class MemberPanel extends JPanel implements ActionListener {
         } else if ("viewAllMembers".equals(command)) {
             viewAllMembers();
         } else if ("back".equals(command)) {
-            SwingUtilities.getWindowAncestor(this).dispose();
+            app.loadMainPanel();
         }
     }
 

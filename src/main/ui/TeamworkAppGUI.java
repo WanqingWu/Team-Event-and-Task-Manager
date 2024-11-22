@@ -22,12 +22,13 @@ public class TeamworkAppGUI {
     private List<TeamEvent> teamEvents;
     private List<TeamProject> teamProjects;
     private List<Member> members;
+    private List<Task> tasks;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     
 
     // EFFECTS: tuns the teamwork application
-    public TeamworkAppGUI() {
+    public TeamworkAppGUI() throws FileNotFoundException {
         teamEvents = new ArrayList<>();
         teamProjects = new ArrayList<>();
         members = new ArrayList<>();
@@ -60,7 +61,7 @@ public class TeamworkAppGUI {
     // EFFECTS: loads the member panel
     public void loadMemberPanel() {
         frame.getContentPane().removeAll();
-        frame.add(new MemberPanel(frame, members));
+        frame.add(new MemberPanel(this, members, tasks));
         frame.revalidate();
         frame.repaint();
     }
@@ -68,7 +69,7 @@ public class TeamworkAppGUI {
     // EFFECTS: loads the event panel
     public void loadEventPanel() {
         frame.getContentPane().removeAll();
-        frame.add(new EventPanel(frame, teamEvents, members));
+        frame.add(new EventPanel(this, teamEvents, members));
         frame.revalidate();
         frame.repaint();
     }
@@ -76,7 +77,7 @@ public class TeamworkAppGUI {
     // EFFECTS: loads the project panel
     public void loadProjectPanel() {
         frame.getContentPane().removeAll();
-        frame.add(new ProjectPanel(frame, teamProjects, members));
+        frame.add(new ProjectPanel(this, teamProjects, members, tasks));
         frame.revalidate();
         frame.repaint();
     }
@@ -87,7 +88,7 @@ public class TeamworkAppGUI {
             jsonWriter.open();
             jsonWriter.writeTeamData(teamEvents, teamProjects);
             jsonWriter.close();
-            JOptionPane.showMessageDialog(frame, "Data saved!");
+            JOptionPane.showMessageDialog(frame, "Data saved!", "Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(frame, "Failed to save data.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -99,7 +100,7 @@ public class TeamworkAppGUI {
             TeamData teamData = jsonReader.readTeamData();
             teamEvents = teamData.getTeamEvents();
             teamProjects = teamData.getTeamProjects();
-            JOptionPane.showMessageDialog(frame, "Data loaded!");
+            JOptionPane.showMessageDialog(frame, "Data loaded!", "Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(frame, "Failed to load data.", "Error", JOptionPane.ERROR_MESSAGE);
         }

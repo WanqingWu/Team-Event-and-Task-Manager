@@ -14,6 +14,7 @@ import java.util.List;
 public class EventPanel extends JPanel implements ActionListener {
     private List<TeamEvent> teamEvents;
     private List<Member> members;
+    private TeamworkAppGUI app;
 
     private JList<String> eventList;
     private DefaultListModel<String> eventListModel;
@@ -24,8 +25,9 @@ public class EventPanel extends JPanel implements ActionListener {
     private JButton backButton;
 
     // EFFECTS: constructs a event panel
-    public EventPanel(List<TeamEvent> teamEvents, List<Member> members) {
+    public EventPanel(TeamworkAppGUI app, List<TeamEvent> teamEvents, List<Member> members) {
         super(new BorderLayout());
+        this.app = app;
         this.teamEvents = teamEvents;
         this.members = members;
 
@@ -96,7 +98,7 @@ public class EventPanel extends JPanel implements ActionListener {
         } else if ("viewMembers".equals(command)) {
             viewEventMembers();
         } else if ("back".equals(command)) {
-            SwingUtilities.getWindowAncestor(this).dispose();
+            app.loadMainPanel();
         }
     }
 

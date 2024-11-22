@@ -55,7 +55,7 @@ public class MainPanel extends JPanel implements ActionListener {
         } else if ("load".equals(command)) {
             app.load();
         } else {
-            JOptionPane.showMessageDialog(app, "Invalid command.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Failed to load data.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
