@@ -94,7 +94,7 @@ public class TeamworkAppGUI {
     }
 
     // EFFECTS: loads the team data from a JSON file
-    private void load() {
+    public void load() {
         try {
             TeamData teamData = jsonReader.readTeamData();
             teamEvents = teamData.getTeamEvents();
