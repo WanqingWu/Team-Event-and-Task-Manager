@@ -25,5 +25,7 @@ When working on group assignments, it's hard to find a good meeting time just by
  - As a user, I want to be able to select a team project and view its tasks and progress.
  - As a user, I want to be able to select a member and mark their task as completed.
  - As a user, I want to be able to view all members in a event.
- - As a user, I want to be able to save a memeber list in a event to file (if I so choose).
- - As a user, I want to be able to load a memeber list in a event to file (if I so choose).
+ - As a user, I want to be able to save a team event and its members to file (if I so choose).
+ - As a user, I want to be able to load a team event and its members to file (if I so choose).
+ - As a user, I want to be able to save a team project and its tasks/members to file (if I so choose).
+ - As a user, I want to be able to load a team project and its tasks/members to file (if I so choose).

@@ -1,0 +1,35 @@
+{
+    "teamProjects": [{
+        "teamProjectName": "Team Project",
+        "tasks": [
+            {
+                "member": "June",
+                "taskName": "Task1",
+                "status": "completed"
+            },
+            {
+                "member": "Stephen",
+                "taskName": "Task2",
+                "status": "in progress"
+            }
+        ]
+    }],
+    "teamEvents": [{
+        "date": "",
+        "members": [
+            {
+                "birthday": "20030609",
+                "task": "Task1",
+                "name": "June"
+            },
+            {
+                "birthday": "20010927",
+                "task": "Task2",
+                "name": "Stephen"
+            }
+        ],
+        "teamEventName": "Team Event",
+        "startTime": 0,
+        "endTime": 0
+    }]
+}
