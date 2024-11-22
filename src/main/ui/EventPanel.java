@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+// Represents the team event panel
 public class EventPanel extends JPanel implements ActionListener {
     private List<TeamEvent> teamEvents;
     private List<Member> members;
@@ -66,6 +67,7 @@ public class EventPanel extends JPanel implements ActionListener {
         add(buttonPanel, BorderLayout.EAST);
     }
 
+    // EFFECTS: returns event with date, start time, end time information in string
     private String formatEvent(TeamEvent teamEvent) {
         return teamEvent.getName() + " | " + teamEvent.getDate() + " | " + 
         teamEvent.getStartTime() + "-" + teamEvent.getEndTime();
@@ -83,6 +85,15 @@ public class EventPanel extends JPanel implements ActionListener {
             viewEventMembers();
         } else if ("back".equals(command)) {
             SwingUtilities.getWindowAncestor(this).dispose();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: refreshes the event list
+    private void refreshEventList() {
+        eventListModel.clear();
+        for (TeamEvent e : teamEvents) {
+            eventListModel.addElement(formatEvent(e));
         }
     }
 
@@ -124,7 +135,7 @@ public class EventPanel extends JPanel implements ActionListener {
                 teamEvent.setEndTime(endTime);
 
                 teamEvents.add(teamEvent);
-                eventListModel.addElement(formatEvent(teamEvent));
+                refreshEventList();
                 JOptionPane.showMessageDialog(this, "Event created!");
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(this, "Invalid start/end time: " + e.getMessage());
@@ -145,6 +156,7 @@ public class EventPanel extends JPanel implements ActionListener {
 
         if (selectedMember != null) {
             selectedEvent.addMember(selectedMember);
+            refreshEventList();
             JOptionPane.showMessageDialog(this, "Added " + selectedMember.getName() + " to " + selectedEvent.getName());
         }
     }
