@@ -25,6 +25,7 @@ public class EventPanel extends ImagePanel implements ActionListener {
     private JButton backButton;
 
     // EFFECTS: constructs a event panel
+    @SuppressWarnings("methodlength")
     public EventPanel(TeamworkAppGUI app, List<TeamEvent> teamEvents, List<Member> members) {
         super("data/images/background2.jpg");
         this.app = app;
@@ -73,12 +74,13 @@ public class EventPanel extends ImagePanel implements ActionListener {
     private String formatEvent(TeamEvent teamEvent) {
         StringBuilder eventDetails = new StringBuilder();
         eventDetails.append(teamEvent.getName()).append(" | Date: ").append(teamEvent.getDate())
-                                                .append(" | Time: ").append(teamEvent.getStartTime()).append("-").append(teamEvent.getEndTime())
+                                                .append(" | Time: ").append(teamEvent.getStartTime()).append("-")
+                                                .append(teamEvent.getEndTime())
                                                 .append("\nMembers: ");
         
         if (teamEvent.getMemberList().isEmpty()) {
             eventDetails.append("None");
-        } else{
+        } else {
             for (Member m : teamEvent.getMemberList()) {
                 eventDetails.append(m.getName()).append(" ");
             }
@@ -113,6 +115,7 @@ public class EventPanel extends ImagePanel implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: creates a team event with event name, date, start time, end time
+    @SuppressWarnings("methodlength")
     private void createEvent() {
         JTextField nameField = new JTextField();
         JTextField dateField = new JTextField("YYYY-MM-DD");
@@ -129,7 +132,8 @@ public class EventPanel extends ImagePanel implements ActionListener {
         panel.add(new JLabel("End Time (10-18):"));
         panel.add(endTimeField);
 
-        int result = JOptionPane.showConfirmDialog(this, panel, "Create Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(this, panel, "Create Event", 
+                                                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
@@ -206,7 +210,10 @@ public class EventPanel extends ImagePanel implements ActionListener {
         }
 
         Object[] memberArray = memberNameList.toArray();
-        String selectedName = (String) JOptionPane.showInputDialog(this, "Choose one member:", "Select Member", JOptionPane.PLAIN_MESSAGE, null, memberArray, memberArray[0]);
+        String selectedName = (String) JOptionPane.showInputDialog(this, "Choose one member:", 
+                                                                    "Select Member", 
+                                                                    JOptionPane.PLAIN_MESSAGE, null, 
+                                                                    memberArray, memberArray[0]);
 
         if (selectedName != null) {
             for (Member m : members) {

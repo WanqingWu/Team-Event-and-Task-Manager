@@ -32,6 +32,7 @@ public class ProjectPanel extends ImagePanel implements ActionListener {
     private JButton backButton;
 
     // EFFECTS: constructs a project panel
+    @SuppressWarnings("methodlength")
     public ProjectPanel(TeamworkAppGUI app, List<TeamProject> teamProjects, List<Member> members, List<Task> tasks) {
         super("data/images/background1.jpg");
         this.app = app;
@@ -230,7 +231,9 @@ public class ProjectPanel extends ImagePanel implements ActionListener {
         panel.add(new JLabel("Project Name:"));
         panel.add(nameField);
 
-        int result = JOptionPane.showConfirmDialog(this, panel, "Create Project", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(this, panel, "Create Project",
+                                                    JOptionPane.OK_CANCEL_OPTION, 
+                                                    JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
@@ -254,13 +257,16 @@ public class ProjectPanel extends ImagePanel implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: creates a new task
+    @SuppressWarnings("methodlength")
     private void createTask() {
         JTextField nameField = new JTextField();
         JPanel panel = new JPanel(new GridLayout(0, 1));
         panel.add(new JLabel("Task Name:"));
         panel.add(nameField);
 
-        int result = JOptionPane.showConfirmDialog(this, panel, "Create Task", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(this, panel, "Create Task",
+                                                    JOptionPane.OK_CANCEL_OPTION,
+                                                    JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
@@ -288,6 +294,7 @@ public class ProjectPanel extends ImagePanel implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: adds a task to a selected team project
+    @SuppressWarnings("methodlength")
     private void addTaskToProject() {
         int selectedProjectIndex = projectList.getSelectedIndex();
         int selectedTaskIndex = unassignedTaskList.getSelectedIndex();
@@ -313,7 +320,8 @@ public class ProjectPanel extends ImagePanel implements ActionListener {
         }
 
         if (selectedTask == null) {
-            JOptionPane.showMessageDialog(this, "Error: Could not find selected task.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error: Could not find selected task.",
+                                             "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

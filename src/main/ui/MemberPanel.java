@@ -27,6 +27,7 @@ public class MemberPanel extends ImagePanel implements ActionListener {
     private JButton backButton;
 
     // EFFECTS: constructs a member panel
+    @SuppressWarnings("methodlength")
     public MemberPanel(TeamworkAppGUI app, List<Member> members, List<Task> tasks, List<TeamProject> teamProjects) {
         super("data/images/background3.jpg");
         this.app = app;
@@ -100,6 +101,7 @@ public class MemberPanel extends ImagePanel implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: creates a new member with name and birthday
+    @SuppressWarnings("methodlength")
     private void createMember() {
         JTextField nameField = new JTextField();
         JTextField birthdayField = new JTextField();
@@ -110,7 +112,8 @@ public class MemberPanel extends ImagePanel implements ActionListener {
         panel.add(new JLabel("Birthday (YYYYMMDD):"));
         panel.add(birthdayField);
 
-        int result = JOptionPane.showConfirmDialog(this, panel, "Create Member", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(this, panel, "Create Member", 
+                                                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
@@ -154,7 +157,8 @@ public class MemberPanel extends ImagePanel implements ActionListener {
         if (selectedTask != null) {
             if (selectedMember.getTask() == null) {
                 selectedTask.assignTaskTo(selectedMember);
-                JOptionPane.showMessageDialog(this, "Assigned " + selectedTask.getName() + " to " + selectedMember.getName());
+                JOptionPane.showMessageDialog(this, "Assigned " + selectedTask.getName() 
+                                                + " to " + selectedMember.getName());
                 refreshMemberList();
             } else {
                 JOptionPane.showMessageDialog(this, "This member already has a task.");
@@ -212,7 +216,9 @@ public class MemberPanel extends ImagePanel implements ActionListener {
         }
 
         Object[] taskArray = taskNames.toArray();
-        String selectedTaskName = (String) JOptionPane.showInputDialog(this, "Choose a task:", "Select Task", JOptionPane.PLAIN_MESSAGE, null, taskArray, taskArray[0]);
+        String selectedTaskName = (String) JOptionPane.showInputDialog(this, "Choose a task:",
+                                                                         "Select Task", JOptionPane.PLAIN_MESSAGE, 
+                                                                         null, taskArray, taskArray[0]);
 
         if (selectedTaskName != null) {
             for (Task t : unassignedTasks) {

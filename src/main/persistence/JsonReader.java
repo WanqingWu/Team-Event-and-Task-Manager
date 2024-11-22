@@ -32,6 +32,7 @@ public class JsonReader {
 
     // MODIFIES: this
     // EFFECTS: reads JSON data from file and returns team data
+    @SuppressWarnings("methodlength")
     public TeamData readTeamData() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
