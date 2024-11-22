@@ -52,6 +52,7 @@ public class TeamDataTest {
     void testConstructor() {
         List<TeamProject> teamProjects = testTeamData.getTeamProjects();
         List<TeamEvent> teamEvents = testTeamData.getTeamEvents();
+        List<Member> members = testTeamData.getMembers();
 
         assertEquals(3, teamProjects.size());
         assertEquals(testTeamProject1, teamProjects.get(0));
@@ -61,5 +62,9 @@ public class TeamDataTest {
         assertEquals(2, teamEvents.size());
         assertEquals(testTeamEvent1, teamEvents.get(0));
         assertEquals(testTeamEvent2, teamEvents.get(1));
+
+        assertEquals(2, members.size());
+        assertEquals(testMember1, members.get(0));
+        assertEquals(testMember2, members.get(1));
     }
 }
