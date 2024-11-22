@@ -10,31 +10,27 @@ import model.Member;
 import model.Task;
 import model.TeamEvent;
 import model.TeamProject;
+import model.TeamData;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 // Represents the teamwork application
 public class TeamworkApp {
-    private static final String JSON_STORE = "./data/teamevent.json";
+    private static final String JSON_STORE = "./data/teamData.json";
     private Scanner input;
-    private TeamEvent teamEvent;
-    private Member member;
-    private Task task;
-    private TeamProject teamProject;
-    private List<Member> members;
-    private List<Task> tasks;
     private List<TeamEvent> teamEvents;
     private List<TeamProject> teamProjects;
+    private List<Member> members;
+    private List<Task> tasks;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
     // EFFECTS: tuns the teamwork application
     public TeamworkApp() throws FileNotFoundException {
-        members = new ArrayList<>();
-        tasks = new ArrayList<>();
         teamEvents = new ArrayList<>();
         teamProjects = new ArrayList<>();
-        teamEvent = new TeamEvent("team event");
+        members = new ArrayList<>();
+        tasks = new ArrayList<>();
         input = new Scanner(System.in);
         input.useDelimiter("\r?\n|\r");
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -68,29 +64,13 @@ public class TeamworkApp {
     @SuppressWarnings("methodlength")
     private void processCommand(String command) {
         if (command.equals("m")) {
-            doCreateMember();
-        } else if (command.equals("t")) {
-            doCreateTask();
+            manageMembers();
         } else if (command.equals("e")) {
-            doCreateTeamEvent();
+            manageTeamEvents();
         } else if (command.equals("p")) {
-            doCreateTeamProject();
-        } else if (command.equals("a")) {
-            doAssignTaskToMember();
-        } else if (command.equals("attp")) {
-            doAddTaskToTeamProject();
-        } else if (command.equals("amtt")) {
-            doAddMemberToTeamEvent();
-        } else if (command.equals("d")) {
-            doDoTask();
-        } else if (command.equals("vm")) {
-            doViewMembers();
-        } else if (command.equals("ve")) {
-            doViewEvents();
-        } else if (command.equals("vt")) {
-            doViewTasks();
-        } else if (command.equals("vp")) {
-            doViewProjects();
+            manageTeamProjects();
+        } else if (command.equals("v")) {
+            viewTeamData();
         } else if (command.equals("save")) {
             save();
         } else if (command.equals("load")) {
@@ -104,37 +84,208 @@ public class TeamworkApp {
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
         System.out.println("\nSelect from:");
-        System.out.println("\tm -> create member");
-        System.out.println("\tt -> create task");
-        System.out.println("\te -> create team event");
-        System.out.println("\tp -> create term project");
-        System.out.println("\ta -> assign task to member");
-        System.out.println("\tattp -> add task to team project");
-        System.out.println("\tamtt -> add member to team event");
-        System.out.println("\td -> do task");
-        System.out.println("\tvm -> view members");
-        System.out.println("\tvt -> view tasks");
-        System.out.println("\tve -> view events");
-        System.out.println("\tvp -> view projects");
-        System.out.println("\tsave -> save to file");
-        System.out.println("\tload -> load from file");
+        System.out.println("\tm -> manage member");
+        System.out.println("\te -> manage team events");
+        System.out.println("\tp -> manage team projects");
+        System.out.println("\tv -> view team data");
+        System.out.println("\tsave -> save team data to file");
+        System.out.println("\tload -> load team data to file");
         System.out.println("\tq -> quit");
     }
 
     // MODIFIES: this
+    // EFFECTS: manages member related actions
+    private void manageMembers() {
+        System.out.println("\nSelect from:");
+        System.out.println("\tc -> create a new member");
+        System.out.println("\ta -> assign a task to a member");
+        System.out.println("\tv -> view all members");
+        System.out.println("\tb -> back to main menu");
+
+        String command = input.next().toLowerCase();
+
+        if (command.equals("c")) {
+            createMember();
+        } else if (command.equals("a")) {
+            assignTaskToMember();
+        } else if (command.equals("v")) {
+            viewMembers();
+        } else if (command.equals("b")) {
+            return;
+        } else {
+            System.out.println("Selection not valid...");
+        }
+    }
+
+    // MODIFIES: this
     // EFFECTS: creates a member and adds them to the member list
-    private void doCreateMember() {
+    private void createMember() {
         System.out.print("Enter member's name:");
         String name = input.next();
         System.out.print("Enter member's birthday(xxxx):");
         int bday = input.nextInt();
         Member member = new Member(name, bday);
         members.add(member);
+        System.out.println("Created team member: " + name);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: assigns a selected task to a selected member
+    private void assignTaskToMember() {
+        Task selectedTask = selectTask();
+        Member selectedMember = selectMember();
+
+        if (selectedMember.getTask() == null) {
+            selectedTask.assignTaskTo(selectedMember);
+            System.out.println("Assigned " + selectedTask.getName() + " to " + selectedMember.getName());
+        } else {
+            System.out.print("This member already has a task to do.");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: views all members in the team
+    private void viewMembers() {
+        List<String> memberNameList = new ArrayList<>();
+
+        for (Member member: members) {
+            memberNameList.add(member.getName());
+        }
+        System.out.println("All members in the team: " + memberNameList);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: manages team event related actions
+    private void manageTeamEvents() {
+        System.out.println("\nSelect from:");
+        System.out.println("\tc -> create a new team event");
+        System.out.println("\tv -> view all team events");
+        System.out.println("\ta -> add a member to an event");
+        System.out.println("\tvm -> view event members");
+        System.out.println("\tb -> back to main menu");
+
+        String command = input.next().toLowerCase();
+
+        if (command.equals("c")) {
+            creatTeamEvent();
+        } else if (command.equals("v")) {
+            viewTeamEvents();
+        } else if (command.equals("a")) {
+            addMemberToEvent();
+        } else if (command.equals("vm")) {
+            viewEventMembers();
+        } else if (command.equals("b")) {
+            return;
+        } else {
+            System.out.println("Selection not valid...");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates a team event and adds them to team event list
+    private void creatTeamEvent() {
+        System.out.print("Enter team event name:");
+        String name = input.next();
+        TeamEvent teamEvent = new TeamEvent(name);
+        teamEvents.add(teamEvent);
+        System.out.println("Created team event: " + name);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: views all events
+    private void viewTeamEvents() {
+       if (teamEvents.isEmpty()) {
+          System.out.println("No events available.");
+          return;
+       }
+
+       System.out.println("\nTeam events:");
+
+       for (int i = 0; i < teamEvents.size(); i++) {
+            TeamEvent teamEvent = teamEvents.get(i);
+            System.out.println((i + 1) + ". Event name: " + teamEvent.getName());
+            System.out.println("   Date: " + teamEvent.getDate());
+            System.out.println("   Start time: " + teamEvent.getStartTime());
+            System.out.println("   End time: " + teamEvent.getEndTime());
+            System.out.println("   Members: ");
+            if (teamEvent.getMemberList().isEmpty()) {
+                System.out.println("No members yet.");
+            } else {
+                for (Member m : teamEvent.getMemberList()) {
+                    System.out.println("      -" + m.getName());
+                }
+            }
+            System.out.println();
+       }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds a selected member to a selected team event
+    private void addMemberToEvent() {
+        Member selectedMember = selectMember();
+        TeamEvent selectedTeamEvent = selectTeamEvent();
+        selectedTeamEvent.addMember(selectedMember);
+        System.out.println("Added " + selectedMember.getName() + " to " + selectedTeamEvent.getName());
+    }
+
+    // MODIFIES: this
+    // EFFECTS: views all members under selected team event
+    private void viewEventMembers() {
+        List<String> memberNameList = new ArrayList<>();
+        TeamEvent selectedTeamEvent = selectTeamEvent();
+
+        for (Member member: selectedTeamEvent.getMemberList()) {
+            memberNameList.add(member.getName());
+        }
+        System.out.println("Members in " + selectedTeamEvent.getName() + ": " + memberNameList);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: manages team project related actions
+    private void manageTeamProjects() {
+        System.out.println("\nSelect from:");
+        System.out.println("\tcp -> create a new team project");
+        System.out.println("\tv -> view all team projects");
+        System.out.println("\tct -> create a new task");
+        System.out.println("\ta -> add a task to a team project");
+        System.out.println("\td -> do a task");
+        System.out.println("\tvt -> view project tasks");
+        System.out.println("\tb -> back to main menu");
+
+        String command = input.next().toLowerCase();
+
+        if (command.equals("cp")) {
+            createTeamProject();
+        } else if (command.equals("ct")) {
+            creatTask();
+        } else if (command.equals("a")) {
+            addTaskToProject();
+        } else if (command.equals("v")) {
+            viewTeamProjects();
+        } else if (command.equals("d")) {
+            doTask();
+        } else if (command.equals("vt")) {
+            viewProjectTasks();
+        } else if (command.equals("b")) {
+            return;
+        } else {
+            System.out.println("Selection not valid...");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates a team project and adds them to team project list
+    private void createTeamProject() {
+        System.out.print("Enter team project name:");
+        String name = input.next();
+        TeamProject teamProject = new TeamProject(name);
+        teamProjects.add(teamProject);
+        System.out.println("Created team project: " + name);
     }
 
     // MODIFIES: this
     // EFFECTS: creates a task and adds them to task list
-    private void doCreateTask() {
+    private void creatTask() {
         System.out.print("Enter task name:");
         String name = input.next();
         Task task = new Task(name);
@@ -142,58 +293,83 @@ public class TeamworkApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: creates a team event and adds them to team event list
-    private void doCreateTeamEvent() {
-        System.out.print("Enter team event name:");
-        String name = input.next();
-        TeamEvent teamEvent = new TeamEvent(name);
-        teamEvents.add(teamEvent);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: creates a team project and adds them to team project list
-    private void doCreateTeamProject() {
-        System.out.print("Enter team project name:");
-        String name = input.next();
-        TeamProject teamProject = new TeamProject(name);
-        teamProjects.add(teamProject);
-    }
-
-
-    // MODIFIES: this
-    // EFFECTS: assigns a selected task to a selected member
-    private void doAssignTaskToMember() {
-        Task selectedTask = selectTask();
-        Member selectedMember = selectMember();
-
-        if (selectedMember.getTask() == null) {
-            selectedTask.assignTaskTo(selectedMember);
-        } else {
-            System.out.print("This member already has a task to do.");
+    // EFFECTS: views all projects
+    private void viewTeamProjects() {
+        if (teamProjects.isEmpty()) {
+           System.out.println("No projects available.");
+           return;
         }
-    }
+ 
+        System.out.println("\nTeam projects:");
+ 
+        for (int i = 0; i < teamProjects.size(); i++) {
+            TeamProject teamProject = teamProjects.get(i);
+            System.out.println((i + 1) + ". Project name: " + teamProject.getName());
+            System.out.println("   Tasks in project: " + teamProject.getName());
+            List<Task> tasks = teamProject.getTasks();
+            if (tasks.isEmpty()) {
+                System.out.println("   No tasks available in this project.");
+            } else {
+                for (Task task : tasks) {
+                    String memberName;
+                    if (task.getMember() != null) {
+                        memberName = task.getMember().getName();
+                    } else {
+                        memberName = "unassigned";
+                    }
+                    System.out.println("   - " + task.getName());
+                    System.out.println("     Status: " + task.getStatus());
+                    System.out.println("     Assigned to: " + memberName);
+                    System.out.println();
+                }
+            }
+            System.out.println();
+        }
+     }
 
     // MODIFIES: this
     // EFFECTS: adds a task to a team project
-    private void doAddTaskToTeamProject() {
+    private void addTaskToProject() {
         Task selectedTask = selectTask();
         TeamProject selectedTeamProject = selectTeamProject();
 
         selectedTeamProject.addTask(selectedTask);
+        System.out.println("Added " + selectedTask.getName() + " to " + selectedTeamProject.getName());
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a selected member to a selected team event
-    private void doAddMemberToTeamEvent() {
-        Member selectedMember = selectMember();
-        TeamEvent selectedTeamEvent = selectTeamEvent();
+    // EFFECTS: views all tasks in one team project
+    private void viewProjectTasks() {
+        if (teamProjects.isEmpty()) {
+            System.out.println("No projects available.");
+            return;
+        }
 
-        selectedTeamEvent.addMember(selectedMember);
+        TeamProject teamProject = selectTeamProject();
+        System.out.println("    Tasks in project: " + teamProject.getName());
+
+        List<Task> tasks = teamProject.getTasks();
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks available in this project.");
+        } else {
+            for (Task task : tasks) {
+                String memberName;
+                if (task.getMember() != null) {
+                    memberName = task.getMember().getName();
+                } else {
+                    memberName = "unassigned";
+                }
+                System.out.println("    - " + task.getName());
+                System.out.println("    Status: " + task.getStatus());
+                System.out.println("    Assigned to: " + memberName);
+                System.out.println();
+            }
+        }
     }
 
     // MODIFIES: this
     // EFFECTS: works on or completes a task
-    private void doDoTask() {
+    private void doTask() {
         Task selectedTask = selectTask();
         if (selectedTask.getStatus() == "not started") {
             selectedTask.workOnTask();
@@ -203,63 +379,36 @@ public class TeamworkApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: views all members under selected team event
-    private void doViewMembers() {
-        List<String> memberNameList = new ArrayList<>();
-        TeamEvent selectedTeamEvent = selectTeamEvent();
+    // EFFECTS: views all team data
+    private void viewTeamData() {
+        System.out.println("Team data:");
+        viewTeamEvents();
+        viewTeamProjects();
+    }
 
-        for (Member member: selectedTeamEvent.getMemberList()) {
-            memberNameList.add(member.getName());
+    // EFFECTS: saves everything to file
+    private void save() {
+        try {
+            jsonWriter.open();
+            jsonWriter.writeTeamData(teamEvents, teamProjects);
+            jsonWriter.close();
+            System.out.println("Saved team data to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
         }
-        System.out.println(memberNameList);
     }
 
     // MODIFIES: this
-    // EFFECTS: views all events
-    private void doViewEvents() {
-        List<String> teamEventNameList = new ArrayList<>();
-        for (TeamEvent teamEvent: teamEvents) {
-            teamEventNameList.add(teamEvent.getName());
+    // EFFECTS: loads workroom from file
+    private void load() {
+        try {
+            TeamData teamData = jsonReader.readTeamData();
+            teamEvents = teamData.getTeamEvents();
+            teamProjects = teamData.getTeamProjects();
+            System.out.println("Loaded team data from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
-        System.out.println(teamEventNameList);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: views all tasks in one team project
-    private void doViewTasks() {
-        List<String> unstartedTaskNameList = new ArrayList<>();
-        List<String> inProgressTaskNameList = new ArrayList<>();
-        List<String> completedTaskNameList = new ArrayList<>();
-        
-        TeamProject selectedTeamProject = selectTeamProject();
-
-        for (Task task: selectedTeamProject.showUnstartedTasks()) {
-            unstartedTaskNameList.add(task.getName());
-        }
-        System.out.println("All unstarted tasks:");
-        System.out.println(unstartedTaskNameList);
-        
-        for (Task task: selectedTeamProject.showInProgressTasks()) {
-            inProgressTaskNameList.add(task.getName());
-        }
-        System.out.println("All tasks in progress:");
-        System.out.println(inProgressTaskNameList);
-
-        for (Task task: selectedTeamProject.showCompletedTasks()) {
-            completedTaskNameList.add(task.getName());
-        }
-        System.out.println("All completed tasks:");
-        System.out.println(completedTaskNameList);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: views all projects
-    private void doViewProjects() {
-        List<String> teamProjectNameList = new ArrayList<>();
-        for (TeamProject teamProject: teamProjects) {
-            teamProjectNameList.add(teamProject.getName());
-        }
-        System.out.println(teamProjectNameList);
     }
 
     // EFFECTS: prompts user to select a member and returns it
@@ -332,36 +481,5 @@ public class TeamworkApp {
         }
 
         return teamEvents.get(selection);
-    }
-
-    // EFFECTS: saves everything to file
-    private void save() {
-        try {
-            jsonWriter.open();
-            jsonWriter.writeTeamEvent(teamEvent);
-            jsonWriter.writeMember(member);
-            jsonWriter.writeTask(task);
-            jsonWriter.writeTeamProject(teamProject);
-            jsonWriter.close();
-            // System.out.println("Saved " + teamEvent.getName() + " to " + JSON_STORE);
-            System.out.println("Saved to " + JSON_STORE);
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE);
-        }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: loads workroom from file
-    private void load() {
-        try {
-            teamEvent = jsonReader.readTeamEvent();
-            member = jsonReader.readMember();
-            task = jsonReader.readTask();
-            teamProject = jsonReader.readTeamProject();
-            // System.out.println("Loaded " + teamEvent.getName() + " from " + JSON_STORE);
-            System.out.println("Loaded from " + JSON_STORE);
-        } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
-        }
     }
 }
