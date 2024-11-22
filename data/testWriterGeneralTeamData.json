@@ -18,6 +18,26 @@
             }
         ]
     }],
+    "members": [
+        {
+            "birthday": "20030609",
+            "task": {
+                "member": "June",
+                "taskName": "q1",
+                "status": "completed"
+            },
+            "name": "June"
+        },
+        {
+            "birthday": "20010927",
+            "task": {
+                "member": "Stephen",
+                "taskName": "q2",
+                "status": "in progress"
+            },
+            "name": "Stephen"
+        }
+    ],
     "teamEvents": [{
         "date": "",
         "members": [

@@ -1,29 +1,5 @@
 {
-    "teamProjects": [
-        {
-            "teamProjectName": "hw",
-            "tasks": [{
-                "taskName": "q1",
-                "status": "in progress"
-            }]
-        },
-        {
-            "teamProjectName": "hw2",
-            "tasks": [{
-                "taskName": "q2",
-                "status": "not started"
-            }]
-        }
-    ],
-    "teamEvents": [{
-        "date": "",
-        "members": [{
-            "birthday": "609",
-            "task": null,
-            "name": "June"
-        }],
-        "teamEventName": "meeting",
-        "startTime": 0,
-        "endTime": 0
-    }]
+    "teamProjects": [],
+    "members": [],
+    "teamEvents": []
 }
