@@ -86,7 +86,7 @@ public class TeamworkAppGUI {
     public void save() {
         try {
             jsonWriter.open();
-            jsonWriter.writeTeamData(teamEvents, teamProjects);
+            jsonWriter.writeTeamData(teamEvents, teamProjects, members);
             jsonWriter.close();
             JOptionPane.showMessageDialog(frame, "Data saved!", "Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (FileNotFoundException e) {
@@ -100,6 +100,7 @@ public class TeamworkAppGUI {
             TeamData teamData = jsonReader.readTeamData();
             teamEvents = teamData.getTeamEvents();
             teamProjects = teamData.getTeamProjects();
+            members = teamData.getMembers();
             JOptionPane.showMessageDialog(frame, "Data loaded!", "Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(frame, "Failed to load data.", "Error", JOptionPane.ERROR_MESSAGE);

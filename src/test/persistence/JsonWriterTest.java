@@ -33,10 +33,11 @@ class JsonWriterTest extends JsonTest {
         try {
             List<TeamEvent> teamEvents = new ArrayList<>();
             List<TeamProject> teamProjects = new ArrayList<>();
+            List<Member> members = new ArrayList<>();
 
             JsonWriter writer = new JsonWriter("./data/testWriterEmptyData.json");
             writer.open();
-            writer.writeTeamData(teamEvents, teamProjects);
+            writer.writeTeamData(teamEvents, teamProjects, members);
             writer.close();
 
             JsonReader reader = new JsonReader("./data/testWriterEmptyData.json");
@@ -53,6 +54,10 @@ class JsonWriterTest extends JsonTest {
         try {
             Member member1 = new Member("June", 20030609);
             Member member2 = new Member("Stephen", 20010927);
+            List<Member> members = new ArrayList<>();
+            members.add(member1);
+            members.add(member2);
+
             Task task1 = new Task("q1");
             task1.setStatus("completed");
             Task task2 = new Task("q2");
@@ -79,7 +84,7 @@ class JsonWriterTest extends JsonTest {
 
             JsonWriter writer = new JsonWriter("./data/testWriterGeneralTeamData.json");
             writer.open();
-            writer.writeTeamData(teamEvents, teamProjects);
+            writer.writeTeamData(teamEvents, teamProjects, members);
             writer.close();
 
             JsonReader reader = new JsonReader("./data/testWriterGeneralTeamData.json");

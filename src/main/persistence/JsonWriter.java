@@ -5,6 +5,7 @@ package persistence;
 
 import model.TeamEvent;
 import model.TeamProject;
+import model.Member;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,7 +33,7 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of team events and projects to file
-    public void writeTeamData(List<TeamEvent> teamEvents, List<TeamProject> teamProjects) {
+    public void writeTeamData(List<TeamEvent> teamEvents, List<TeamProject> teamProjects, List<Member> members) {
         JSONObject json = new JSONObject();
 
         JSONArray eventsArray = new JSONArray();
@@ -46,6 +47,12 @@ public class JsonWriter {
             projectsArray.put(tp.toJson());
         }
         json.put("teamProjects", projectsArray);
+
+        JSONArray membersArray = new JSONArray();
+        for (Member m : members) {
+            membersArray.put(m.toJson());
+        }
+        json.put("members", membersArray);
 
         saveToFile(json);
     }

@@ -185,7 +185,7 @@ public class EventPanel extends JPanel implements ActionListener {
         }
 
         TeamEvent selectedTeamEvent = teamEvents.get(selectedIndex);
-        StringBuilder memberNames = new StringBuilder("Members in " + selectedTeamEvent.getName() + ": ");
+        StringBuilder memberNames = new StringBuilder("Members in " + selectedTeamEvent.getName() + ": \n");
         for (Member m : selectedTeamEvent.getMemberList()) {
             memberNames.append("- ").append(m.getName()).append("\n");
         }

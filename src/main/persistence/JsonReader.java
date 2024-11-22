@@ -52,7 +52,16 @@ public class JsonReader {
             }
         }
 
-        return new TeamData(teamEvents, teamProjects);
+        List<Member> members = new ArrayList<>();
+        if (jsonObject.has("members")) {
+            JSONArray membersArray = jsonObject.getJSONArray("members");
+            for (Object m : membersArray) {
+                JSONObject memberJson = (JSONObject) m;
+                members.add(parseMember(memberJson));
+            }
+        }
+
+        return new TeamData(teamEvents, teamProjects, members);
     }
 
     // EFFECTS: reads source file as string and returns it

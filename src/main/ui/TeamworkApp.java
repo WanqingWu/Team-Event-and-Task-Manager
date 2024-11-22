@@ -392,7 +392,7 @@ public class TeamworkApp {
     private void save() {
         try {
             jsonWriter.open();
-            jsonWriter.writeTeamData(teamEvents, teamProjects);
+            jsonWriter.writeTeamData(teamEvents, teamProjects, members);
             jsonWriter.close();
             System.out.println("Saved team data to " + JSON_STORE);
         } catch (FileNotFoundException e) {

@@ -16,6 +16,10 @@ public class TeamDataTest {
     private TeamEvent testTeamEvent2;
     private List<TeamProject> testTeamProjects;
     private List<TeamEvent> testTeamEvents;
+    private Member testMember1;
+    private Member testMember2;
+    private List<Member> testMembers;
+
 
     @BeforeEach
     void runBefore() {
@@ -24,9 +28,12 @@ public class TeamDataTest {
         testTeamProject3 = new TeamProject("project3");
         testTeamEvent1 = new TeamEvent("event1");
         testTeamEvent2 = new TeamEvent("event2");
+        testMember1 = new Member("June", 20030609);
+        testMember2 = new Member("Stephen", 20010927);
 
         testTeamEvents = new ArrayList<>();
         testTeamProjects = new ArrayList<>();
+        testMembers = new ArrayList<>();
 
         testTeamEvents.add(testTeamEvent1);
         testTeamEvents.add(testTeamEvent2);
@@ -35,7 +42,10 @@ public class TeamDataTest {
         testTeamProjects.add(testTeamProject2);
         testTeamProjects.add(testTeamProject3);
 
-        testTeamData = new TeamData(testTeamEvents, testTeamProjects);
+        testMembers.add(testMember1);
+        testMembers.add(testMember2);
+
+        testTeamData = new TeamData(testTeamEvents, testTeamProjects, testMembers);
     }
 
     @Test

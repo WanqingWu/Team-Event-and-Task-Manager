@@ -132,7 +132,7 @@ public class ProjectPanel extends JPanel implements ActionListener {
 
         if ("createProject".equals(command)) {
             createProject();
-        } else if ("creatTask".equals(command)) {
+        } else if ("createTask".equals(command)) {
             createTask();
         } else if ("addTaskToProject".equals(command)) {
             addTaskToProject();
@@ -231,13 +231,26 @@ public class ProjectPanel extends JPanel implements ActionListener {
         TeamProject selectedProject = teamProjects.get(selectedIndex);
         Task selectedTask = selectTask();
 
-        if (selectedTask != null) {
-            selectedProject.addTask(selectedTask);
-            refreshProjectList();
-            tasks.remove(selectedTask);
-            refreshTaskList(selectedProject);
-            JOptionPane.showMessageDialog(this, "Added " + selectedTask.getName() + " to " + selectedProject.getName());
+        if (selectedTask == null) {
+            JOptionPane.showMessageDialog(this, "No task selected.");
+            return;
         }
+
+        if (selectedProject.getTasks().contains(selectedTask)) {
+            JOptionPane.showMessageDialog(this, "This task is already added to this project.");
+            return;
+        }
+
+        selectedProject.addTask(selectedTask);
+
+        if (tasks.contains(selectedTask)) {
+            tasks.remove(selectedTask);
+        }
+
+        refreshProjectList();
+        refreshTaskList(selectedProject);
+        
+        JOptionPane.showMessageDialog(this, "Added " + selectedTask.getName() + " to " + selectedProject.getName());
     }
 
     // MODIFIES: this
