@@ -29,3 +29,10 @@ When working on group assignments, it's hard to find a good meeting time just by
  - As a user, I want to be able to load a team event and its members to file (if I so choose).
  - As a user, I want to be able to save a team project and its tasks/members to file (if I so choose).
  - As a user, I want to be able to load a team project and its tasks/members to file (if I so choose).
+
+## Instructions for End User
+- You can generate the first required action related to the user story "adding multiple tasks to a project" by selecting a project from the "Projects" list and then selecting a task from the "Unassigned Tasks" list, and then clicking the "Work/Complete Task" button to change its status.
+- You can generate the second required action related to the user story "adding multiple tasks to a project" by highlighting a task in the "Project Tasks" list using the "Highlight Task" button and choosing a color to emphasize its importance.
+- You can locate my visual component by observing the background images for the MainPanel, ProjectPanel, MemberPanel, and EventPanel.
+- You can save the state of my application by clicking the "Save" button in the main menu.
+- You can reload the state of my application by clicking the "Load" button in the main menu.
