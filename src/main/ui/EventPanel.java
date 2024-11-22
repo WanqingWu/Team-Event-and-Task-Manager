@@ -69,8 +69,20 @@ public class EventPanel extends JPanel implements ActionListener {
 
     // EFFECTS: returns event with date, start time, end time information in string
     private String formatEvent(TeamEvent teamEvent) {
-        return teamEvent.getName() + " | " + teamEvent.getDate() + " | " + 
-        teamEvent.getStartTime() + "-" + teamEvent.getEndTime();
+        StringBuilder eventDetails = new StringBuilder();
+        eventDetails.append(teamEvent.getName()).append(" | Date: ").append(teamEvent.getDate())
+                                                .append(" | Time: ").append(teamEvent.getStartTime()).append("-").append(teamEvent.getEndTime())
+                                                .append("\nMembers: ");
+        
+        if (teamEvent.getMemberList().isEmpty()) {
+            eventDetails.append("None");
+        } else{
+            for (Member m : teamEvent.getMemberList()) {
+                eventDetails.append(m.getName()).append(" ");
+            }
+        }
+
+        return eventDetails.toString();
     }
 
     @Override
