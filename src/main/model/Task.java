@@ -26,6 +26,8 @@ public class Task implements Writable {
     // EFFECTS: changes the task name to newName
     public void changeNameTo(String newName) {
         this.name = newName;
+
+        EventLog.getInstance().logEvent(new Event("Task name changed."));
     }
 
     public String getStatus() {
@@ -50,6 +52,8 @@ public class Task implements Writable {
                 member.addTask(this);
             }
         }
+
+        EventLog.getInstance().logEvent(new Event("Task assigned to member."));
     }
 
     // REQUIRES: this task hasn't started
@@ -59,6 +63,8 @@ public class Task implements Writable {
         if (this.status.equals("not started")) {
             this.status = "in progress";
         }
+
+        EventLog.getInstance().logEvent(new Event("Task in progress."));
     }
 
     // REQUIRES: this task has been in progress
@@ -68,6 +74,8 @@ public class Task implements Writable {
         if (this.status.equals("in progress")) {
             this.status = "completed";
         }
+
+        EventLog.getInstance().logEvent(new Event("Task completed."));
     }
 
     @Override

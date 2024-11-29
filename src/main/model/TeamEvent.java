@@ -32,6 +32,8 @@ public class TeamEvent implements Writable {
     // EFFECTS: changes the event name to newName
     public void changeNameTo(String newName) {
         this.name = newName;
+
+        EventLog.getInstance().logEvent(new Event("Team event name changed."));
     }
 
     // REQUIRES: 9 <= startTime <= 17
@@ -64,6 +66,8 @@ public class TeamEvent implements Writable {
     // EFFECTS: adds member to this event
     public void addMember(Member member) {
         this.memberList.add(member);
+
+        EventLog.getInstance().logEvent(new Event("Member added to event."));
     }
 
     public String getName() {

@@ -42,6 +42,8 @@ public class TeamProject implements Writable {
     // EFFECTS: adds a task to this project
     public void addTask(Task task) {
         this.taskList.add(task);
+
+        EventLog.getInstance().logEvent(new Event("Task added to project."));
     }
 
     // MODIFIES: this

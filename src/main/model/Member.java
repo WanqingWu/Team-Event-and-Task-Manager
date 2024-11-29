@@ -45,6 +45,8 @@ public class Member implements Writable {
                 task.assignTaskTo(this);
             }
         }
+
+        EventLog.getInstance().logEvent(new Event("Task added to member."));
     }
 
     @Override

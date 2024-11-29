@@ -36,3 +36,18 @@ When working on group assignments, it's hard to find a good meeting time just by
 - You can locate my visual component by observing the background images for the MainPanel, ProjectPanel, MemberPanel, and EventPanel.
 - You can save the state of my application by clicking the "Save" button in the main menu.
 - You can reload the state of my application by clicking the "Load" button in the main menu.
+
+## Phase 4: Task 2
+Logged Events:
+Thu Nov 28 23:50:33 PST 2024
+Member added to event.
+Thu Nov 28 23:50:38 PST 2024
+Member added to event.
+Thu Nov 28 23:51:04 PST 2024
+Task added to project.
+Thu Nov 28 23:51:10 PST 2024
+Task assigned to member.
+Thu Nov 28 23:51:10 PST 2024
+Task added to member.
+Thu Nov 28 23:51:10 PST 2024
+Task assigned to member.
