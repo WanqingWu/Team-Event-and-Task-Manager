@@ -51,3 +51,6 @@ Thu Nov 28 23:51:10 PST 2024
 Task added to member.
 Thu Nov 28 23:51:10 PST 2024
 Task assigned to member.
+
+## Phase 4: Task 3
+To improve my design, I can replace the String status in Task with an enum (e.g., TaskStatus). This would improve type safety, prevent errors from invalid strings, and enhance code clarity.
