@@ -161,6 +161,7 @@ public class ProjectPanel extends ImagePanel implements ActionListener {
     }
 
     @Override
+    // EFFECTS: performs different actions based on different commands
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         System.out.println("Action performed: " + command);

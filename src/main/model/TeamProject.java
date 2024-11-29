@@ -96,6 +96,8 @@ public class TeamProject implements Writable {
     }
 
     @Override
+    // MODIFIES: this
+    // EFFECTS: writes member to Json object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("teamProjectName", name);

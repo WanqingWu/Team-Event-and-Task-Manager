@@ -91,6 +91,8 @@ public class TeamEvent implements Writable {
     }
 
     @Override
+    // MODIFIES: this
+    // EFFECTS: writes member to Json object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("teamEventName", name);

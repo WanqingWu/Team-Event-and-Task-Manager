@@ -3,6 +3,7 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
+// Represents the image panel
 public class ImagePanel extends JPanel {
     private Image backgroundImage;
 
@@ -16,6 +17,7 @@ public class ImagePanel extends JPanel {
     }
 
     @Override
+    // EFFECTS: paints graph
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (backgroundImage != null) {

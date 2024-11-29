@@ -20,6 +20,7 @@ public class WindowCloseListener implements WindowListener {
 
     }
 
+    // EFFECTS: prints logged event when closing the window
     @Override
     public void windowClosing(WindowEvent e) {
         printLoggedEvent();
@@ -50,6 +51,7 @@ public class WindowCloseListener implements WindowListener {
         
     }
 
+    // EFFECTS: prints all logged events in console
     private void printLoggedEvent() {
         System.out.println("Logged Events:");
         for (Event event : eventLog) {

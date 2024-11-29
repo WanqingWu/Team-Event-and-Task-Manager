@@ -8,7 +8,7 @@ public class TeamData {
     private List<TeamProject> teamProjects;
     private List<Member> members;
 
-    // Constructs a team data containing team events and team projects
+    // EFFECTS: Constructs a team data containing team events and team projects
     public TeamData(List<TeamEvent> teamEvents, List<TeamProject> teamProjects, List<Member> members) {
         this.teamEvents = teamEvents;
         this.teamProjects = teamProjects;

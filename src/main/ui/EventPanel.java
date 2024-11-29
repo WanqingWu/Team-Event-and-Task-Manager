@@ -90,6 +90,7 @@ public class EventPanel extends ImagePanel implements ActionListener {
     }
 
     @Override
+    // EFFECTS: performs different actions based on different commands
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
 

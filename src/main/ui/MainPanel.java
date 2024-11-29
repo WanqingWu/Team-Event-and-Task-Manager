@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// Represents the main panel
 public class MainPanel extends ImagePanel implements ActionListener {
     private TeamworkAppGUI app;
 
@@ -42,6 +43,7 @@ public class MainPanel extends ImagePanel implements ActionListener {
     }
 
     @Override
+    // EFFECTS: performs different actions based on different commands
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
 
