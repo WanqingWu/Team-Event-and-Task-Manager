@@ -20,12 +20,12 @@ import java.util.stream.Stream;
 import org.json.*;
 
 // Represents a reader that reads team event from JSON data stored in file
-public class JsonReader {
+public class JSONReader {
     private String source;
     private List<Member> members;
 
     // EFFECTS: constructs reader to read from source file
-    public JsonReader(String source) {
+    public JSONReader(String source) {
         this.source = source;
         this.members = new ArrayList<>();
     }

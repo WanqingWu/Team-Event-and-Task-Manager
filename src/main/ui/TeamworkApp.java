@@ -11,7 +11,7 @@ import model.Task;
 import model.TeamEvent;
 import model.TeamProject;
 import model.TeamData;
-import persistence.JsonReader;
+import persistence.JSONReader;
 import persistence.JsonWriter;
 
 // Represents the teamwork application
@@ -23,7 +23,7 @@ public class TeamworkApp {
     private List<Member> members;
     private List<Task> tasks;
     private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
+    private JSONReader jsonReader;
 
     // EFFECTS: tuns the teamwork application
     public TeamworkApp() throws FileNotFoundException {
@@ -34,7 +34,7 @@ public class TeamworkApp {
         input = new Scanner(System.in);
         input.useDelimiter("\r?\n|\r");
         jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
+        jsonReader = new JSONReader(JSON_STORE);
         runTeamwork();
     }
 

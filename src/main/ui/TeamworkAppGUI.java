@@ -24,7 +24,7 @@ public class TeamworkAppGUI {
     private List<Member> members;
     private List<Task> tasks;
     private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
+    private JSONReader jsonReader;
     
 
     // EFFECTS: tuns the teamwork application
@@ -34,7 +34,7 @@ public class TeamworkAppGUI {
         members = new ArrayList<>();
         tasks = new ArrayList<>();
         jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
+        jsonReader = new JSONReader(JSON_STORE);
 
         initialize();
     }

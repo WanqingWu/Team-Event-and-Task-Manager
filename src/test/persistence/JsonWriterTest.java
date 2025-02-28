@@ -40,7 +40,7 @@ class JsonWriterTest extends JsonTest {
             writer.writeTeamData(teamEvents, teamProjects, members);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterEmptyData.json");
+            JSONReader reader = new JSONReader("./data/testWriterEmptyData.json");
             TeamData teamData = reader.readTeamData();
             assertTrue(teamData.getTeamEvents().isEmpty());
             assertTrue(teamData.getTeamProjects().isEmpty());
@@ -87,7 +87,7 @@ class JsonWriterTest extends JsonTest {
             writer.writeTeamData(teamEvents, teamProjects, members);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralTeamData.json");
+            JSONReader reader = new JSONReader("./data/testWriterGeneralTeamData.json");
             TeamData teamData = reader.readTeamData();
 
             List<TeamEvent> readEvents = teamData.getTeamEvents();
