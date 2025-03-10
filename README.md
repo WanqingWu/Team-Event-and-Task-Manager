@@ -1,6 +1,6 @@
 # Team Event and Task Manager
 
-This application helps teams manage their events and projects efficiently. It allows all team members to view upcoming events, select available time slots for meetings or activities, and track progress on assigned tasks within projects. The application is designed to streamline collaboration by keeping everyone updated on key dates, availability, and task completion.
+This application helps teams manage their events and projects efficiently. It allows all team members to view upcoming events and track progress on assigned tasks within projects. The application is designed to streamline collaboration by keeping everyone updated on key dates, availability, and task completion.
 
 ## Features
 - **Event Management:** 
